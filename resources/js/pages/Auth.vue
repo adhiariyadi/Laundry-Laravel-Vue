@@ -6,7 +6,7 @@
           <div class="card-body">
             <div class="brand-logo" style="text-align:center;">
               <img src="images/logo_login.png" alt="logo" style="width:200px; " />
-              <h4 class="text-muted" style="font-weight:bold;">Aplikasi Manajemen Laundry</h4>
+              <h4 class="text-muted" style="font-weight:bold;">Aplikasi Laundry</h4>
               <h6 class="text-muted" style="font-weight:light;">Harap masuk untuk melanjutkan.</h6>
             </div>
             <div class="p-2">

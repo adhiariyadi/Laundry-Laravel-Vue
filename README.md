@@ -1,10 +1,18 @@
-<h1 align="center">Selamat datang di Laravel Vue! 👋</h1>
+<h1 align="center">Selamat datang di Laundry! 👋</h1>
+
+## Apa itu Laundry?
+
+Web Laundry yang dibuat oleh <a href="https://github.com/adhiariyadi"> Adhi Ariyadi </a>. **Laundry adalah aplikasi manajemen laundry website dengan mudah.**
+
+## Fitur apa saja yang tersedia di Laundry?
+
+-   Dalam Proses Pembuatan
 
 ## Release Date
 
-**Release date : 29 Jul 2020**
+**Release date : 30 Jul 2020**
 
-> Laravel Vue merupakan project open source yang dibuat oleh Adhi Ariyadi. Kalian dapat download/fork/clone. Cukup beri stars di project ini agar memberiku semangat. Terima kasih!
+> Laundry merupakan project open source yang dibuat oleh Adhi Ariyadi. Kalian dapat download/fork/clone. Cukup beri stars di project ini agar memberiku semangat. Terima kasih!
 
 ---
 
@@ -15,6 +23,11 @@
 -   Username: admin
 -   Password: admin
 
+**Kasir Default Account**
+
+-   Username: kasir
+-   Password: kasir
+
 ---
 
 ## Install
@@ -22,8 +35,8 @@
 1. **Clone Repository**
 
 ```bash
-git clone https://github.com/adhiariyadi/Laravel-Vue.git
-cd Laravel-Vue
+git clone https://github.com/adhiariyadi/Laundry-Laravel-Vue.git
+cd Laundry-Laravel-Vue
 composer install
 npm install
 cp .env.example .env
@@ -66,4 +79,4 @@ Jangan ragu untuk memeriksa halaman masalah jika Anda ingin berkontribusi. **Ber
 ## License
 
 -   Copyright © 2020 Adhi Ariyadi.
--   **Laravel Vue is open-sourced software licensed under the MIT license.**
+-   **Laundry is open-sourced software licensed under the MIT license.**

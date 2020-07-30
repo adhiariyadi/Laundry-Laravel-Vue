@@ -61647,7 +61647,7 @@ var staticRenderFns = [
         _c(
           "h4",
           { staticClass: "text-muted", staticStyle: { "font-weight": "bold" } },
-          [_vm._v("Aplikasi Manajemen Laundry")]
+          [_vm._v("Aplikasi Laundry")]
         ),
         _vm._v(" "),
         _c(
