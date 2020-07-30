@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
 {
@@ -12,9 +14,9 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return new CategoryResource(Category::where('name', 'LIKE', "%$request->search%")->orderBy('id', 'desc')->paginate(10));
     }
 
     /**
@@ -35,7 +37,26 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'satuan' => 'required',
+            'harga' => 'required',
+        ]);
+
+        Category::UpdateOrCreate(
+            [
+                'id' => $request->id,
+            ],
+            [
+                'name' => $request->name,
+                'description' => $request->description,
+                'satuan' => $request->satuan,
+                'harga' => $request->harga,
+            ]
+        );
+
+        return response(['success' => true], 200);
     }
 
     /**
@@ -57,7 +78,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        return Category::findOrFail($id);
     }
 
     /**
@@ -80,6 +101,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Category::find($id)->delete();
+        return response(['success' => true], 200);
     }
 }

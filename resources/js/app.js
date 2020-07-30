@@ -24,9 +24,10 @@ import auth from "./auth";
 import VueAuth from "@websanova/vue-auth";
 import VueAxios from "vue-axios";
 
-import AdminHome from "./pages/Admin/Home.vue";
+import Home from "./pages/Admin/Home.vue";
+import Category from "./pages/Admin/Category/Index.vue";
 
-import AuthLogin from "./pages/Auth.vue";
+import Login from "./pages/Auth.vue";
 
 Vue.component("app", require("./pages/App.vue").default);
 Vue.component("auth-page", require("./pages/Auth.vue").default);
@@ -43,11 +44,11 @@ Vue.prototype.numberFormat = numberFormat;
 const router = new VueRouter({
     mode: "history",
     routes: [
-        { path: "/", component: AdminHome, meta: { auth: true } },
-        { path: "/admin", component: AdminHome, meta: { auth: true } },
+        { path: "/", component: Home, meta: { auth: true } },
+        { path: "/category", component: Category, meta: { auth: true } },
         {
             path: "/login",
-            component: AuthLogin,
+            component: Login,
             meta: { auth: false, pageType: "auth" }
         }
     ]

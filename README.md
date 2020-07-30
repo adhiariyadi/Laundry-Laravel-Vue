@@ -2,7 +2,7 @@
 
 ## Apa itu Laundry?
 
-Web Laundry yang dibuat oleh <a href="https://github.com/adhiariyadi"> Adhi Ariyadi </a>. **Laundry adalah aplikasi manajemen laundry website dengan mudah.**
+Web Laundry yang dibuat oleh <a href="https://github.com/adhiariyadi"> Adhi Ariyadi </a>. **Laundry adalah aplikasi manajemen laundry melalui website dengan mudah.**
 
 ## Fitur apa saja yang tersedia di Laundry?
 

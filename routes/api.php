@@ -21,6 +21,8 @@ Route::prefix('v1')->group(function () {
         Route::middleware('auth:api')->group(function () {
             Route::get('/user', 'API\AuthController@user');
             Route::post('/logout', 'API\AuthController@logout');
+
+            Route::resource('/category', 'API\CategoryController');
         });
     });
 });
