@@ -23,10 +23,10 @@ Web Laundry yang dibuat oleh <a href="https://github.com/adhiariyadi"> Adhi Ariy
 -   Username: admin
 -   Password: admin
 
-**Kasir Default Account**
+**Operator Default Account**
 
--   Username: kasir
--   Password: kasir
+-   Username: operator
+-   Password: operator
 
 ---
 
