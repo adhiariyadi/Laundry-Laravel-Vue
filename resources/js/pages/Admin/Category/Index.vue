@@ -72,8 +72,8 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="category in categories" v-bind:key="category.id">
-                    <td>{{ category.id }}</td>
+                  <tr v-for="(category, index) in categories" v-bind:key="category.id">
+                    <td>{{ index+1 }}</td>
                     <td>{{ category.name }}</td>
                     <td>{{ category.description }}</td>
                     <td>

@@ -72,8 +72,8 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="member in members" v-bind:key="member.id">
-                    <td>{{ member.id }}</td>
+                  <tr v-for="(member, index) in members" v-bind:key="member.id">
+                    <td>{{ index+1 }}</td>
                     <td>{{ member.name }}</td>
                     <td>
                       {{

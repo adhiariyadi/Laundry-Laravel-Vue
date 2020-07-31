@@ -22,6 +22,8 @@ Route::prefix('v1')->group(function () {
             Route::get('/user', 'API\AuthController@user');
             Route::post('/logout', 'API\AuthController@logout');
 
+            Route::resource('/antrian', 'API\AntrianController');
+
             Route::resource('/category', 'API\CategoryController');
             Route::resource('/member', 'API\MemberController');
             Route::resource('/promo', 'API\PromoController');

@@ -5,7 +5,7 @@
         <div class="page-title-box">
           <div class="row align-items-center">
             <div class="col-md-8">
-              <h4 class="page-title m-0">Promo</h4>
+              <h4 class="page-title m-0">Antrian</h4>
             </div>
             <!-- end col -->
           </div>
@@ -22,7 +22,7 @@
           <div class="card-body">
             <div class="row mb-3">
               <div class="col-8">
-                <h4 class="mt-0 header-title">List All Promo</h4>
+                <h4 class="mt-0 header-title">List All Antrian</h4>
               </div>
               <div class="col-4">
                 <div class="float-right d-none d-md-block">
@@ -39,49 +39,83 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="offset-md-8 col-md-4 col-sm-12">
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">
-                      <i class="fas fa-search"></i>
-                    </span>
-                  </div>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Cari Kode Promo"
-                    aria-label="Cari Kode Promo"
-                    aria-describedby="basic-addon1"
-                    v-model="search"
-                    @keyup="searchData"
-                  />
-                </div>
-              </div>
-            </div>
             <div class="table-responsive">
-              <table class="table table-hover table-lg" id="promo-table">
+              <table class="table table-hover table-lg" id="Antrian-table">
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Kode</th>
-                    <th>Description</th>
-                    <th>Discount</th>
+                    <th>Nama Member</th>
+                    <th>Status</th>
+                    <th>Waktu</th>
+                    <th>Total Harga</th>
+                    <th>Status Pembayaran</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(promo, index) in promos" v-bind:key="promo.id">
+                  <tr v-for="(antrian, index) in antrians" v-bind:key="antrian.id">
                     <td>{{ index+1 }}</td>
-                    <td>{{ promo.kode }}</td>
-                    <td>{{ promo.description }}</td>
-                    <td>{{ promo.discount }}%</td>
                     <td>
-                      <button
-                        type="button"
-                        @click="deletePromo(promo.id)"
-                        class="btn btn-danger"
-                      >Hapus</button>
+                      {{
+                      antrian.member === undefined
+                      ? "Deleted"
+                      : antrian.member.name
+                      }}
+                    </td>
+                    <td>
+                      <h6>
+                        <span class="badge badge-secondary p-2" v-if="antrian.status == 'hold'">
+                          <i class="fas fa-upload"></i>
+                          {{ antrian.status }}
+                        </span>
+                        <span class="badge badge-info p-2" v-if="antrian.status == 'cuci'">
+                          <i class="fas fa-tshirt"></i>
+                          {{ antrian.status }}
+                        </span>
+                        <span class="badge badge-success p-2" v-if="antrian.status == 'selesai'">
+                          <i class="fas fa-check-circle"></i>
+                          {{ antrian.status }}
+                        </span>
+                      </h6>
+                    </td>
+                    <td>
+                      Masuk :
+                      <b>{{ antrian.created_at }}</b>
+                      <br />Selesai :
+                      <b>{{ antrian.selesai ? antrian.selesai : "-" }}</b>
+                      <br />Diambil :
+                      <b>{{ antrian.ambil ? antrian.ambil : "-" }}</b>
+                    </td>
+                    <td>Rp. 0</td>
+                    <td>
+                      <h6>
+                        <span
+                          class="badge badge-warning p-2"
+                          v-if="antrian.pembayaran === 'pending'"
+                        >
+                          <i class="fas fa-circle"></i>
+                          Belum bayar
+                        </span>
+                        <span class="badge badge-success p-2" v-else>
+                          <i class="fas fa-circle"></i>
+                          Sudah bayar
+                        </span>
+                        <br />
+                        <br />
+                        <span class="badge badge-warning p-2" v-if="antrian.ambil === null">
+                          <i class="fas fa-circle"></i>
+                          Belum diambil
+                        </span>
+                        <span class="badge badge-success p-2" v-else>
+                          <i class="fas fa-circle"></i>
+                          Sudah diambil
+                        </span>
+                      </h6>
+                    </td>
+                    <td>
+                      <router-link to="/" class="btn btn-info">
+                        <i class="fas fa-info-circle"></i> Detail
+                      </router-link>
                     </td>
                   </tr>
                 </tbody>
@@ -127,12 +161,12 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Promo</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Add Antrian</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action method="POST" enctype="multipart/form-data" @submit.prevent="addPromo">
+          <form action method="POST" enctype="multipart/form-data" @submit.prevent="addAntrian">
             <div class="modal-body">
               <div class="alert alert-danger" v-if="errors.length > 0">
                 <ul>
@@ -140,16 +174,15 @@
                 </ul>
               </div>
               <div class="form-group">
-                <label>Kode Promo:</label>
-                <input type="text" name="kode" class="form-control" v-model="add.kode" />
-              </div>
-              <div class="form-group">
-                <label>Description:</label>
-                <textarea name="description" class="form-control" v-model="add.description"></textarea>
-              </div>
-              <div class="form-group">
-                <label>Discount:</label>
-                <input type="number" name="discount" class="form-control" v-model="add.discount" />
+                <label for="member">Member:</label>
+                <select name="member" v-model="member" class="form-control">
+                  <option value selected disabled>-- Pilih Member --</option>
+                  <option
+                    :value="member.id"
+                    v-for="member in this.members"
+                    :key="member.id"
+                  >{{ member.name }}</option>
+                </select>
               </div>
             </div>
             <div class="modal-footer">
@@ -168,6 +201,7 @@
         </div>
       </div>
     </div>
+    <!-- Modal -->
   </div>
   <!-- container fluid -->
 </template>
@@ -179,18 +213,14 @@ export default {
   },
   data() {
     return {
-      add: {
-        kode: "",
-        description: "",
-        discount: "",
-      },
+      member: "",
       search: "",
-      promos: [],
+      antrians: [],
+      members: [],
       errors: [],
       addLoading: false,
       first_page: 1,
       page: 1,
-      search: "",
       last_page: null,
       current_page: this.$route.query.page || 1,
       next_page_url: "",
@@ -198,34 +228,33 @@ export default {
     };
   },
   methods: {
-    displayData(page = 1, search = "") {
+    displayData(page = 1) {
       this.$http({
-        url: "/api/v1/promo",
+        url: "/api/v1/antrian",
         method: "GET",
-        params: { search: this.search, page: this.page },
+        params: { page: this.page },
       }).then((result) => {
-        this.promos = result.data.data;
-        this.last_page = result.data.meta.last_page;
-        this.current_page = result.data.meta.current_page;
-        this.next_page_url = result.data.links.next;
-        this.prev_page_url = result.data.links.prev;
+        this.antrians = result.data.data.antrian.data;
+        this.members = result.data.data.member;
+        this.last_page = result.data.data.antrian.meta.last_page;
+        this.current_page = result.data.data.antrian.meta.current_page;
+        this.next_page_url = result.data.data.antrian.links.next;
+        this.prev_page_url = result.data.data.antrian.links.prev;
       });
     },
-    addPromo() {
+    addAntrian() {
       this.addLoading = true;
       const formData = new FormData();
-      formData.append("kode", this.add.kode);
-      formData.append("description", this.add.description);
-      formData.append("discount", this.add.discount);
+      formData.append("member", this.member);
       axios
-        .post("/api/v1/promo", formData, {
+        .post("/api/v1/antrian", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
           this.addLoading = false;
           this.errors = [];
           $("#modalAdd").modal("toggle");
-          alertify.success("Success Create Promo!");
+          alertify.success("Success Create Antrian!");
           this.displayData();
           this.name = "";
         })
@@ -238,23 +267,6 @@ export default {
             this.errors = error.response.data.errors;
           }
         });
-    },
-    deletePromo(id) {
-      const that = this;
-      alertify.confirm(
-        "Anda yakin ingin menghapus?",
-        function (e) {
-          e.preventDefault();
-          axios.delete(`/api/v1/promo/${id}`).then((res) => {
-            alertify.success("Success Delete Promo!");
-            that.displayData();
-          });
-        },
-        function (e) {
-          e.preventDefault();
-          alertify.error("Berhasil membatalkan");
-        }
-      );
     },
     nextPage() {
       let nextPage = this.current_page + 1;
