@@ -5,7 +5,7 @@
         <div class="page-title-box">
           <div class="row align-items-center">
             <div class="col-md-8">
-              <h4 class="page-title m-0">Category</h4>
+              <h4 class="page-title m-0">Member</h4>
             </div>
             <!-- end col -->
           </div>
@@ -22,7 +22,7 @@
           <div class="card-body">
             <div class="row mb-3">
               <div class="col-8">
-                <h4 class="mt-0 header-title">List All Category</h4>
+                <h4 class="mt-0 header-title">List All Member</h4>
               </div>
               <div class="col-4">
                 <div class="float-right d-none d-md-block">
@@ -50,8 +50,8 @@
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="Cari Nama Category"
-                    aria-label="Cari Nama Category"
+                    placeholder="Cari Nama Member"
+                    aria-label="Cari Nama Member"
                     aria-describedby="basic-addon1"
                     v-model="search"
                     @keyup="searchData"
@@ -60,34 +60,37 @@
               </div>
             </div>
             <div class="table-responsive">
-              <table class="table table-hover table-lg" id="category-table">
+              <table class="table table-hover table-lg" id="Member-table">
                 <thead>
                   <tr>
                     <th>#</th>
                     <th>Name</th>
-                    <th>Description</th>
-                    <th>Satuan - Harga</th>
+                    <th>Level Member</th>
+                    <th>Point</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="category in categories" v-bind:key="category.id">
-                    <td>{{ category.id }}</td>
-                    <td>{{ category.name }}</td>
-                    <td>{{ category.description }}</td>
+                  <tr v-for="member in members" v-bind:key="member.id">
+                    <td>{{ member.id }}</td>
+                    <td>{{ member.name }}</td>
                     <td>
-                      {{ category.satuan }} - Rp.
-                      {{ formatPrice(category.harga) }}
+                      {{
+                      member.level === undefined
+                      ? "Deleted"
+                      : member.level.name
+                      }}
                     </td>
+                    <td>{{ member.point }}</td>
                     <td>
                       <button
                         type="button"
                         class="btn btn-warning"
-                        @click="editCategory(category.id)"
+                        @click="editMember(member.id)"
                       >Edit</button>
                       <button
                         type="button"
-                        @click="deleteCategory(category.id)"
+                        @click="deleteMember(member.id)"
                         class="btn btn-danger"
                       >Hapus</button>
                     </td>
@@ -134,12 +137,12 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Add Member</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action method="POST" enctype="multipart/form-data" @submit.prevent="addCategory">
+          <form action method="POST" enctype="multipart/form-data" @submit.prevent="addMember">
             <div class="modal-body">
               <div class="alert alert-danger" v-if="errors.length > 0">
                 <ul>
@@ -147,24 +150,27 @@
                 </ul>
               </div>
               <div class="form-group">
-                <label>Nama Category:</label>
+                <label>Nama Member:</label>
                 <input type="text" name="name" class="form-control" v-model="add.name" />
               </div>
               <div class="form-group">
-                <label>Description:</label>
-                <textarea name="description" class="form-control" v-model="add.description"></textarea>
+                <label>Alamat:</label>
+                <textarea name="alamat" class="form-control" v-model="add.alamat"></textarea>
               </div>
               <div class="form-group">
-                <label for="satuan">Satuan:</label>
-                <select name="satuan" v-model="add.satuan" class="form-control">
-                  <option value selected disabled>-- Pilih Satuan --</option>
-                  <option value="Kg">Kilogram</option>
-                  <option value="Pcs">Pcs</option>
+                <label>No. Telepon:</label>
+                <input type="text" name="telp" class="form-control" v-model="add.telp" />
+              </div>
+              <div class="form-group">
+                <label for="level">Level Member:</label>
+                <select name="level" v-model="add.level" class="form-control">
+                  <option value selected disabled>-- Pilih Level Member --</option>
+                  <option
+                    :value="level.id"
+                    v-for="level in this.levels"
+                    :key="level.id"
+                  >{{ level.name }}</option>
                 </select>
-              </div>
-              <div class="form-group">
-                <label>Harga:</label>
-                <input type="number" name="harga" class="form-control" v-model="add.harga" />
               </div>
             </div>
             <div class="modal-footer">
@@ -195,12 +201,12 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Edit Category</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Edit Member</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action method="POST" enctype="multipart/form-data" @submit.prevent="updateCategory">
+          <form action method="POST" enctype="multipart/form-data" @submit.prevent="updateMember">
             <div class="modal-body">
               <div class="alert alert-danger" v-if="errors.length > 0">
                 <ul>
@@ -208,24 +214,27 @@
                 </ul>
               </div>
               <div class="form-group">
-                <label>Nama Category:</label>
+                <label>Nama Member:</label>
                 <input type="text" name="name" class="form-control" v-model="edit.name" />
               </div>
               <div class="form-group">
-                <label>Description:</label>
-                <textarea name="description" class="form-control" v-model="edit.description"></textarea>
+                <label>Alamat:</label>
+                <textarea name="alamat" class="form-control" v-model="edit.alamat"></textarea>
               </div>
               <div class="form-group">
-                <label for="satuan">Satuan:</label>
-                <select name="satuan" v-model="edit.satuan" class="form-control">
-                  <option value selected disabled>-- Pilih Satuan --</option>
-                  <option value="Kg">Kilogram</option>
-                  <option value="Pcs">Pcs</option>
+                <label>No. Telepon:</label>
+                <input type="text" name="telp" class="form-control" v-model="edit.telp" />
+              </div>
+              <div class="form-group">
+                <label for="level">Level Member:</label>
+                <select name="level" v-model="edit.level" class="form-control">
+                  <option value selected disabled>-- Pilih Level Member --</option>
+                  <option
+                    :value="level.id"
+                    v-for="level in this.levels"
+                    :key="level.id"
+                  >{{ level.name }}</option>
                 </select>
-              </div>
-              <div class="form-group">
-                <label>Harga:</label>
-                <input type="number" name="harga" class="form-control" v-model="edit.harga" />
               </div>
               <input type="hidden" name="id" class="form-control" v-model="edit.id" />
             </div>
@@ -259,19 +268,20 @@ export default {
     return {
       add: {
         name: "",
-        description: "",
-        satuan: "",
-        harga: "",
+        alamat: "",
+        telp: "",
+        level: "",
       },
       edit: {
         id: "",
         name: "",
-        description: "",
-        satuan: "",
-        harga: "",
+        alamat: "",
+        telp: "",
+        level: "",
       },
       search: "",
-      categories: [],
+      members: [],
+      levels: [],
       errors: [],
       addLoading: false,
       first_page: 1,
@@ -286,34 +296,35 @@ export default {
   methods: {
     displayData(page = 1, search = "") {
       this.$http({
-        url: "/api/v1/category",
+        url: "/api/v1/member",
         method: "GET",
         params: { search: this.search, page: this.page },
       }).then((result) => {
-        this.categories = result.data.data;
-        this.last_page = result.data.meta.last_page;
-        this.current_page = result.data.meta.current_page;
-        this.next_page_url = result.data.links.next;
-        this.prev_page_url = result.data.links.prev;
+        this.members = result.data.data.member.data;
+        this.levels = result.data.data.level;
+        this.last_page = result.data.data.member.meta.last_page;
+        this.current_page = result.data.data.member.meta.current_page;
+        this.next_page_url = result.data.data.member.links.next;
+        this.prev_page_url = result.data.data.member.links.prev;
       });
     },
-    addCategory() {
+    addMember() {
       this.addLoading = true;
       const formData = new FormData();
       formData.append("id", "");
       formData.append("name", this.add.name);
-      formData.append("description", this.add.description);
-      formData.append("satuan", this.add.satuan);
-      formData.append("harga", this.add.harga);
+      formData.append("alamat", this.add.alamat);
+      formData.append("telp", this.add.telp);
+      formData.append("level", this.add.level);
       axios
-        .post("/api/v1/category", formData, {
+        .post("/api/v1/member", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
           this.addLoading = false;
           this.errors = [];
           $("#modalAdd").modal("toggle");
-          alertify.success("Success Create Category!");
+          alertify.success("Success Create Member!");
           this.displayData();
           this.name = "";
         })
@@ -327,33 +338,33 @@ export default {
           }
         });
     },
-    editCategory(id) {
-      axios.get(`/api/v1/category/${id}/edit`).then((result) => {
+    editMember(id) {
+      axios.get(`/api/v1/member/${id}/edit`).then((result) => {
         this.edit.id = result.data.id;
         this.edit.name = result.data.name;
-        this.edit.description = result.data.description;
-        this.edit.satuan = result.data.satuan;
-        this.edit.harga = result.data.harga;
+        this.edit.alamat = result.data.alamat;
+        this.edit.telp = result.data.telp;
+        this.edit.level = result.data.level_id;
         $("#modalEdit").modal("show");
       });
     },
-    updateCategory() {
+    updateMember() {
       this.addLoading = true;
       const formData = new FormData();
       formData.append("id", this.edit.id);
       formData.append("name", this.edit.name);
-      formData.append("description", this.edit.description);
-      formData.append("satuan", this.edit.satuan);
-      formData.append("harga", this.edit.harga);
+      formData.append("alamat", this.edit.alamat);
+      formData.append("telp", this.edit.telp);
+      formData.append("level", this.edit.level);
       axios
-        .post(`/api/v1/category/`, formData, {
+        .post(`/api/v1/member/`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
           this.addLoading = false;
           this.errors = [];
           $("#modalEdit").modal("toggle");
-          alertify.success("Success Update Category!");
+          alertify.success("Success Update Member!");
           this.displayData();
         })
         .catch((error) => {
@@ -366,14 +377,14 @@ export default {
           }
         });
     },
-    deleteCategory(id) {
+    deleteMember(id) {
       const that = this;
       alertify.confirm(
         "Anda yakin ingin menghapus?",
         function (e) {
           e.preventDefault();
-          axios.delete(`/api/v1/category/${id}`).then((res) => {
-            alertify.success("Success Delete Category!");
+          axios.delete(`/api/v1/member/${id}`).then((res) => {
+            alertify.success("Success Delete Member!");
             that.displayData();
           });
         },
@@ -396,10 +407,6 @@ export default {
     searchData() {
       this.displayData(1, this.search);
       window.history.replaceState(null, null, "?page=1");
-    },
-    formatPrice(value) {
-      let val = (value / 1).toFixed(0).replace(".", ",");
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
   },
 };

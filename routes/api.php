@@ -23,6 +23,7 @@ Route::prefix('v1')->group(function () {
             Route::post('/logout', 'API\AuthController@logout');
 
             Route::resource('/category', 'API\CategoryController');
+            Route::resource('/member', 'API\MemberController');
         });
     });
 });

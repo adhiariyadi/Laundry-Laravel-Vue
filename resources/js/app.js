@@ -26,6 +26,7 @@ import VueAxios from "vue-axios";
 
 import Home from "./pages/Admin/Home.vue";
 import Category from "./pages/Admin/Category/Index.vue";
+import Member from "./pages/Admin/Member/Index.vue";
 
 import Login from "./pages/Auth.vue";
 
@@ -46,6 +47,7 @@ const router = new VueRouter({
     routes: [
         { path: "/", component: Home, meta: { auth: true } },
         { path: "/category", component: Category, meta: { auth: true } },
+        { path: "/member", component: Member, meta: { auth: true } },
         {
             path: "/login",
             component: Login,

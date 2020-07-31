@@ -25,7 +25,7 @@
             </span>
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown">
-            <a class="dropdown-item" href="#" @click.prevent="$auth.logout()">
+            <a class="dropdown-item" href="#" @click.prevent="logout()">
               <i class="dripicons-exit text-muted"></i> Logout
             </a>
           </div>
@@ -43,14 +43,13 @@
 </template>
 
 <script>
-import Swal from "sweetalert2";
 export default {
   mounted() {},
 
   methods: {
     logout() {
+      alertify.success("Success Logout!");
       this.$auth.logout();
-      Swal.fire(`Sukses!`, `Sukses logout!`, "success");
     },
   },
 };
