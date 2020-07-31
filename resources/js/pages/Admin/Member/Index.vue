@@ -60,12 +60,13 @@
               </div>
             </div>
             <div class="table-responsive">
-              <table class="table table-hover table-lg" id="Member-table">
+              <table class="table table-hover table-lg" id="member-table">
                 <thead>
                   <tr>
                     <th>#</th>
                     <th>Name</th>
                     <th>Level Member</th>
+                    <th>Total Cuci</th>
                     <th>Point</th>
                     <th>Aksi</th>
                   </tr>
@@ -81,6 +82,7 @@
                       : member.level.name
                       }}
                     </td>
+                    <td>0</td>
                     <td>{{ member.point }}</td>
                     <td>
                       <button
@@ -125,6 +127,7 @@
         </div>
       </div>
     </div>
+    <!-- end row -->
     <!-- Modal -->
     <div
       class="modal fade"
@@ -254,7 +257,6 @@
         </div>
       </div>
     </div>
-    <!-- end row -->
   </div>
   <!-- container fluid -->
 </template>

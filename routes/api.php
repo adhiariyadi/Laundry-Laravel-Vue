@@ -24,6 +24,7 @@ Route::prefix('v1')->group(function () {
 
             Route::resource('/category', 'API\CategoryController');
             Route::resource('/member', 'API\MemberController');
+            Route::resource('/promo', 'API\PromoController');
         });
     });
 });

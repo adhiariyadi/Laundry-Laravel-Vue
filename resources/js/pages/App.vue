@@ -37,6 +37,12 @@
                 <span>Member</span>
               </router-link>
             </li>
+            <li v-if="$auth.check('Admin')">
+              <router-link to="/promo" class="waves-effect">
+                <i class="dripicons-home"></i>
+                <span>Promo</span>
+              </router-link>
+            </li>
           </ul>
         </div>
         <div class="clearfix"></div>
