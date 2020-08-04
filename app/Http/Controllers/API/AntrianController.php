@@ -18,7 +18,7 @@ class AntrianController extends Controller
      */
     public function index()
     {
-        return new AntrianResource(['antrian' => Antrian::with(['member', 'operator'])->orderBy('id', 'desc')->paginate(10), 'member' => Member::all()]);
+        return new AntrianResource(['antrian' => Antrian::with(['member', 'operator'])->orderBy('id', 'desc')->where('date', date('Y-m-d'))->paginate(10), 'member' => Member::all()]);
     }
 
     /**
@@ -45,6 +45,7 @@ class AntrianController extends Controller
 
         Antrian::Create([
             'member_id' => $request->member,
+            'date' => date('Y-m-d'),
             'pembayaran' => "pending",
             'operator' => Auth::user()->id,
             'status' => "hold",
@@ -61,7 +62,7 @@ class AntrianController extends Controller
      */
     public function show($id)
     {
-        //
+        return Antrian::with(['member', 'operator'])->findOrFail($id);
     }
 
     /**
@@ -72,7 +73,7 @@ class AntrianController extends Controller
      */
     public function edit($id)
     {
-        //
+        return Antrian::with(['member', 'operator'])->findOrFail($id);
     }
 
     /**
@@ -95,6 +96,7 @@ class AntrianController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Antrian::find($id)->delete();
+        return response(['success' => true], 200);
     }
 }

@@ -16,6 +16,7 @@ class CreateAntrianTable extends Migration
         Schema::create('antrian', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('member_id');
+            $table->date('date');
             $table->timestamp('selesai')->nullable();
             $table->timestamp('ambil')->nullable();
             $table->enum('pembayaran', ['pending', 'selesai']);

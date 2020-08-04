@@ -25,6 +25,12 @@
                 <span>Antrian</span>
               </router-link>
             </li>
+            <li v-if="$auth.check('Admin')">
+              <router-link to="/antrian" class="waves-effect">
+                <i class="dripicons-home"></i>
+                <span>Laundry Room</span>
+              </router-link>
+            </li>
             <li class="menu-title" v-if="$auth.check('Admin')">Admin</li>
             <li v-if="$auth.check('Admin')">
               <router-link to="/" class="waves-effect">

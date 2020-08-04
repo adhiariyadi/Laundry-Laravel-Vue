@@ -54,7 +54,7 @@
                 </thead>
                 <tbody>
                   <tr v-for="(antrian, index) in antrians" v-bind:key="antrian.id">
-                    <td>{{ index+1 }}</td>
+                    <td>{{ index + 1 }}</td>
                     <td>
                       {{
                       antrian.member === undefined
@@ -82,9 +82,21 @@
                       Masuk :
                       <b>{{ antrian.created_at }}</b>
                       <br />Selesai :
-                      <b>{{ antrian.selesai ? antrian.selesai : "-" }}</b>
+                      <b>
+                        {{
+                        antrian.selesai
+                        ? antrian.selesai
+                        : "-"
+                        }}
+                      </b>
                       <br />Diambil :
-                      <b>{{ antrian.ambil ? antrian.ambil : "-" }}</b>
+                      <b>
+                        {{
+                        antrian.ambil
+                        ? antrian.ambil
+                        : "-"
+                        }}
+                      </b>
                     </td>
                     <td>Rp. 0</td>
                     <td>
@@ -94,28 +106,29 @@
                           v-if="antrian.pembayaran === 'pending'"
                         >
                           <i class="fas fa-circle"></i>
-                          Belum bayar
+                          Belum Bayar
                         </span>
                         <span class="badge badge-success p-2" v-else>
                           <i class="fas fa-circle"></i>
-                          Sudah bayar
+                          Sudah Bayar
                         </span>
                         <br />
                         <br />
                         <span class="badge badge-warning p-2" v-if="antrian.ambil === null">
                           <i class="fas fa-circle"></i>
-                          Belum diambil
+                          Belum Diambil
                         </span>
                         <span class="badge badge-success p-2" v-else>
                           <i class="fas fa-circle"></i>
-                          Sudah diambil
+                          Sudah Diambil
                         </span>
                       </h6>
                     </td>
                     <td>
-                      <router-link to="/" class="btn btn-info">
-                        <i class="fas fa-info-circle"></i> Detail
-                      </router-link>
+                      <button type="button" @click="detailAntrian(antrian.id)" class="btn btn-info">
+                        <i class="fas fa-info-circle"></i>
+                        Detail
+                      </button>
                     </td>
                   </tr>
                 </tbody>
@@ -127,7 +140,10 @@
                   <button
                     class="page-link"
                     href="#"
-                    v-if="this.current_page !== this.first_page"
+                    v-if="
+                                            this.current_page !==
+                                                this.first_page
+                                        "
                     @click="prevPage"
                   >Previous</button>
                 </li>
@@ -139,7 +155,9 @@
                     class="page-link"
                     href="#"
                     @click="nextPage"
-                    v-if="this.current_page !== this.last_page"
+                    v-if="
+                                            this.current_page !== this.last_page
+                                        "
                   >Next</button>
                 </li>
               </ul>
@@ -202,6 +220,110 @@
       </div>
     </div>
     <!-- Modal -->
+    <div
+      class="modal fade"
+      id="modalDetail"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+      v-if="detail"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Detail Antrian {{
+              detail.member === undefined
+              ? "Deleted"
+              : detail.member.name
+              }}
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <tr>
+                <td>Pelanggan</td>
+                <td>
+                  {{
+                  detail.member === undefined
+                  ? "Deleted"
+                  : detail.member.name
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>Waktu Registrasi</td>
+                <td>{{ detail.created_at }}</td>
+              </tr>
+              <tr>
+                <td>Status Cucian</td>
+                <td>
+                  <span v-if="detail.status === 'hold'">Hold (Sedang dalam antrian ke laundry room)</span>
+                  <span
+                    v-if="detail.status === 'cuci'"
+                  >Sedang cuci (Cucian sedang di ke laundry room)</span>
+                  <span
+                    v-if="detail.status === 'selesai' && detail.ambil === null"
+                  >Selesai (Cucian sudah selesai)</span>
+                  <span
+                    v-if="detail.status === 'selesai' && detail.ambil !== null"
+                  >Selesai & Diambil (Cucian sudah selesai dan diambil oleh pelanggan)</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Status Pembayaran</td>
+                <td>
+                  {{
+                  detail.pembayaran === "pending"
+                  ? "Belum"
+                  : "Sudah"
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>Sudah di ambil</td>
+                <td>
+                  {{
+                  detail.ambil === null
+                  ? "Belum"
+                  : "Sudah"
+                  }}
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <div style="text-align: center;">
+              <a href="#" class="btn btn-lg btn-success btn-icon icon-left disabled mr-2">
+                <i class="fas fa-receipt"></i> Bayar
+              </a>
+              <a
+                href="#"
+                class="btn btn-lg btn-success btn-icon icon-left disabled mr-2"
+                id="btnPickUp"
+              >
+                <i class="fas fa-check-circle"></i> Set sudah di ambil
+              </a>
+              <a href="#" class="btn btn-lg btn-success btn-icon icon-left disabled">
+                <i class="fas fa-tshirt"></i> Ke laundry room
+              </a>
+              <button
+                type="button"
+                @click="deleteAntrian(detail.id)"
+                class="btn btn-lg btn-warning btn-icon icon-left mt-3"
+                v-if="detail.status !== 'selesai' && detail.pembayaran !== 'selesai' && detail.ambil === null && detail.selesai === null"
+              >
+                <i class="fas fa-trash-alt"></i> Batalkan Cucian
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <!-- container fluid -->
 </template>
@@ -209,14 +331,14 @@
 <script>
 export default {
   mounted() {
-    this.displayData(this.page, this.search);
+    this.displayData(this.page);
   },
   data() {
     return {
       member: "",
-      search: "",
       antrians: [],
       members: [],
+      detail: {},
       errors: [],
       addLoading: false,
       first_page: 1,
@@ -267,6 +389,30 @@ export default {
             this.errors = error.response.data.errors;
           }
         });
+    },
+    detailAntrian(id) {
+      axios.get(`/api/v1/antrian/${id}`).then((result) => {
+        this.detail = result.data;
+        $("#modalDetail").modal("show");
+      });
+    },
+    deleteAntrian(id) {
+      const that = this;
+      $("#modalDetail").modal("toggle");
+      alertify.confirm(
+        "Anda yakin ingin menghapus?",
+        function (e) {
+          e.preventDefault();
+          axios.delete(`/api/v1/antrian/${id}`).then((res) => {
+            alertify.success("Success Delete Antrian!");
+            that.displayData();
+          });
+        },
+        function (e) {
+          e.preventDefault();
+          alertify.error("Berhasil membatalkan");
+        }
+      );
     },
     nextPage() {
       let nextPage = this.current_page + 1;

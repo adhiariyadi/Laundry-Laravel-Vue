@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Antrian extends Model
 {
     protected $fillable = [
-        'member_id', 'selesai', 'ambil', 'pembayaran', 'operator', 'status'
+        'member_id', 'date', 'selesai', 'ambil', 'pembayaran', 'operator', 'status'
     ];
 
     public function member()

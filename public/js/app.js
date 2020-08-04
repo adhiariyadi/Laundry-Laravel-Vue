@@ -3290,16 +3290,138 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    this.displayData(this.page, this.search);
+    this.displayData(this.page);
   },
   data: function data() {
     return {
       member: "",
-      search: "",
       antrians: [],
       members: [],
+      detail: {},
       errors: [],
       addLoading: false,
       first_page: 1,
@@ -3360,6 +3482,28 @@ __webpack_require__.r(__webpack_exports__);
         } else if (statusCode == 400) {
           _this2.errors = error.response.data.errors;
         }
+      });
+    },
+    detailAntrian: function detailAntrian(id) {
+      var _this3 = this;
+
+      axios.get("/api/v1/antrian/".concat(id)).then(function (result) {
+        _this3.detail = result.data;
+        $("#modalDetail").modal("show");
+      });
+    },
+    deleteAntrian: function deleteAntrian(id) {
+      var that = this;
+      $("#modalDetail").modal("toggle");
+      alertify.confirm("Anda yakin ingin menghapus?", function (e) {
+        e.preventDefault();
+        axios["delete"]("/api/v1/antrian/".concat(id)).then(function (res) {
+          alertify.success("Success Delete Antrian!");
+          that.displayData();
+        });
+      }, function (e) {
+        e.preventDefault();
+        alertify.error("Berhasil membatalkan");
       });
     },
     nextPage: function nextPage() {
@@ -4557,6 +4701,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Topbar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../components/Topbar */ "./resources/js/components/Topbar.vue");
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -59863,14 +60013,22 @@ var render = function() {
                           _vm._v("Selesai :\n                    "),
                           _c("b", [
                             _vm._v(
-                              _vm._s(antrian.selesai ? antrian.selesai : "-")
+                              "\n                      " +
+                                _vm._s(
+                                  antrian.selesai ? antrian.selesai : "-"
+                                ) +
+                                "\n                    "
                             )
                           ]),
                           _vm._v(" "),
                           _c("br"),
                           _vm._v("Diambil :\n                    "),
                           _c("b", [
-                            _vm._v(_vm._s(antrian.ambil ? antrian.ambil : "-"))
+                            _vm._v(
+                              "\n                      " +
+                                _vm._s(antrian.ambil ? antrian.ambil : "-") +
+                                "\n                    "
+                            )
                           ])
                         ]),
                         _vm._v(" "),
@@ -59885,7 +60043,7 @@ var render = function() {
                                   [
                                     _c("i", { staticClass: "fas fa-circle" }),
                                     _vm._v(
-                                      "\n                        Belum bayar\n                      "
+                                      "\n                        Belum Bayar\n                      "
                                     )
                                   ]
                                 )
@@ -59895,7 +60053,7 @@ var render = function() {
                                   [
                                     _c("i", { staticClass: "fas fa-circle" }),
                                     _vm._v(
-                                      "\n                        Sudah bayar\n                      "
+                                      "\n                        Sudah Bayar\n                      "
                                     )
                                   ]
                                 ),
@@ -59911,7 +60069,7 @@ var render = function() {
                                   [
                                     _c("i", { staticClass: "fas fa-circle" }),
                                     _vm._v(
-                                      "\n                        Belum diambil\n                      "
+                                      "\n                        Belum Diambil\n                      "
                                     )
                                   ]
                                 )
@@ -59921,30 +60079,33 @@ var render = function() {
                                   [
                                     _c("i", { staticClass: "fas fa-circle" }),
                                     _vm._v(
-                                      "\n                        Sudah diambil\n                      "
+                                      "\n                        Sudah Diambil\n                      "
                                     )
                                   ]
                                 )
                           ])
                         ]),
                         _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _c(
-                              "router-link",
-                              {
-                                staticClass: "btn btn-info",
-                                attrs: { to: "/" }
-                              },
-                              [
-                                _c("i", { staticClass: "fas fa-info-circle" }),
-                                _vm._v(" Detail\n                    ")
-                              ]
-                            )
-                          ],
-                          1
-                        )
+                        _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-info",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.detailAntrian(antrian.id)
+                                }
+                              }
+                            },
+                            [
+                              _c("i", { staticClass: "fas fa-info-circle" }),
+                              _vm._v(
+                                "\n                      Detail\n                    "
+                              )
+                            ]
+                          )
+                        ])
                       ])
                     }),
                     0
@@ -60150,7 +60311,182 @@ var render = function() {
           ]
         )
       ]
-    )
+    ),
+    _vm._v(" "),
+    _vm.detail
+      ? _c(
+          "div",
+          {
+            staticClass: "modal fade",
+            attrs: {
+              id: "modalDetail",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "exampleModalLabel",
+              "aria-hidden": "true"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "h5",
+                      {
+                        staticClass: "modal-title",
+                        attrs: { id: "exampleModalLabel" }
+                      },
+                      [
+                        _vm._v(
+                          "\n            Detail Antrian " +
+                            _vm._s(
+                              _vm.detail.member === undefined
+                                ? "Deleted"
+                                : _vm.detail.member.name
+                            ) +
+                            "\n          "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm._m(4)
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c("table", { staticClass: "table" }, [
+                      _c("tr", [
+                        _c("td", [_vm._v("Pelanggan")]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(
+                                _vm.detail.member === undefined
+                                  ? "Deleted"
+                                  : _vm.detail.member.name
+                              ) +
+                              "\n              "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", [_vm._v("Waktu Registrasi")]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(_vm.detail.created_at))])
+                      ]),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", [_vm._v("Status Cucian")]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm.detail.status === "hold"
+                            ? _c("span", [
+                                _vm._v(
+                                  "Hold (Sedang dalam antrian ke laundry room)"
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.detail.status === "cuci"
+                            ? _c("span", [
+                                _vm._v(
+                                  "Sedang cuci (Cucian sedang di ke laundry room)"
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.detail.status === "selesai" &&
+                          _vm.detail.ambil === null
+                            ? _c("span", [
+                                _vm._v("Selesai (Cucian sudah selesai)")
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.detail.status === "selesai" &&
+                          _vm.detail.ambil !== null
+                            ? _c("span", [
+                                _vm._v(
+                                  "Selesai & Diambil (Cucian sudah selesai dan diambil oleh pelanggan)"
+                                )
+                              ])
+                            : _vm._e()
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", [_vm._v("Status Pembayaran")]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(
+                                _vm.detail.pembayaran === "pending"
+                                  ? "Belum"
+                                  : "Sudah"
+                              ) +
+                              "\n              "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", [_vm._v("Sudah di ambil")]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(
+                                _vm.detail.ambil === null ? "Belum" : "Sudah"
+                              ) +
+                              "\n              "
+                          )
+                        ])
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c("div", { staticStyle: { "text-align": "center" } }, [
+                      _vm._m(5),
+                      _vm._v(" "),
+                      _vm._m(6),
+                      _vm._v(" "),
+                      _vm._m(7),
+                      _vm._v(" "),
+                      _vm.detail.status !== "selesai" &&
+                      _vm.detail.pembayaran !== "selesai" &&
+                      _vm.detail.ambil === null &&
+                      _vm.detail.selesai === null
+                        ? _c(
+                            "button",
+                            {
+                              staticClass:
+                                "btn btn-lg btn-warning btn-icon icon-left mt-3",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteAntrian(_vm.detail.id)
+                                }
+                              }
+                            },
+                            [
+                              _c("i", { staticClass: "fas fa-trash-alt" }),
+                              _vm._v(" Batalkan Cucian\n            ")
+                            ]
+                          )
+                        : _vm._e()
+                    ])
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -60250,6 +60586,71 @@ var staticRenderFns = [
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Tutup"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "btn btn-lg btn-success btn-icon icon-left disabled mr-2",
+        attrs: { href: "#" }
+      },
+      [
+        _c("i", { staticClass: "fas fa-receipt" }),
+        _vm._v(" Bayar\n            ")
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "btn btn-lg btn-success btn-icon icon-left disabled mr-2",
+        attrs: { href: "#", id: "btnPickUp" }
+      },
+      [
+        _c("i", { staticClass: "fas fa-check-circle" }),
+        _vm._v(" Set sudah di ambil\n            ")
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "btn btn-lg btn-success btn-icon icon-left disabled",
+        attrs: { href: "#" }
+      },
+      [
+        _c("i", { staticClass: "fas fa-tshirt" }),
+        _vm._v(" Ke laundry room\n            ")
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -62603,6 +63004,27 @@ var render = function() {
                             _c("i", { staticClass: "dripicons-home" }),
                             _vm._v(" "),
                             _c("span", [_vm._v("Antrian")])
+                          ]
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$auth.check("Admin")
+                  ? _c(
+                      "li",
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "waves-effect",
+                            attrs: { to: "/antrian" }
+                          },
+                          [
+                            _c("i", { staticClass: "dripicons-home" }),
+                            _vm._v(" "),
+                            _c("span", [_vm._v("Laundry Room")])
                           ]
                         )
                       ],
