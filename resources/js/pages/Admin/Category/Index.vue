@@ -142,7 +142,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action method="POST" enctype="multipart/form-data" @submit.prevent="addCategory">
+          <form action method="POST" @submit.prevent="addCategory">
             <div class="modal-body">
               <div class="alert alert-danger" v-if="errors.length > 0">
                 <ul>
@@ -203,7 +203,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action method="POST" enctype="multipart/form-data" @submit.prevent="updateCategory">
+          <form action method="POST" @submit.prevent="updateCategory">
             <div class="modal-body">
               <div class="alert alert-danger" v-if="errors.length > 0">
                 <ul>
@@ -317,7 +317,10 @@ export default {
           $("#modalAdd").modal("toggle");
           alertify.success("Success Create Category!");
           this.displayData();
-          this.name = "";
+          this.add.name = "";
+          this.add.description = "";
+          this.add.satuan = "";
+          this.add.harga = "";
         })
         .catch((error) => {
           this.addLoading = false;

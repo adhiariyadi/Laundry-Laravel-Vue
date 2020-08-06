@@ -81,7 +81,7 @@ class AntrianController extends Controller
      */
     public function edit($id)
     {
-        return Antrian::with(['member', 'operator'])->findOrFail($id);
+        // 
     }
 
     /**
@@ -105,6 +105,7 @@ class AntrianController extends Controller
     public function destroy($id)
     {
         Antrian::find($id)->delete();
+        Room::where('antrian_id', $id)->delete();
         return response(['success' => true], 200);
     }
 }

@@ -132,7 +132,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action method="POST" enctype="multipart/form-data" @submit.prevent="addPromo">
+          <form action method="POST" @submit.prevent="addPromo">
             <div class="modal-body">
               <div class="alert alert-danger" v-if="errors.length > 0">
                 <ul>
@@ -227,7 +227,9 @@ export default {
           $("#modalAdd").modal("toggle");
           alertify.success("Success Create Promo!");
           this.displayData();
-          this.name = "";
+          this.add.kode = "";
+          this.add.description = "";
+          this.add.discount = "";
         })
         .catch((error) => {
           this.addLoading = false;

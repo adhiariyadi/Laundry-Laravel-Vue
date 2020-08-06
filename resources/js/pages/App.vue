@@ -26,7 +26,7 @@
               </router-link>
             </li>
             <li v-if="$auth.check('Admin')">
-              <router-link to="/antrian" class="waves-effect">
+              <router-link to="/room" class="waves-effect">
                 <i class="dripicons-home"></i>
                 <span>Laundry Room</span>
               </router-link>

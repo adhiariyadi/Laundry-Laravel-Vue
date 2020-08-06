@@ -40,7 +40,7 @@
               </div>
             </div>
             <div class="table-responsive">
-              <table class="table table-hover table-lg" id="Antrian-table">
+              <table class="table table-hover table-lg" id="antrian-table">
                 <thead>
                   <tr>
                     <th>#</th>
@@ -67,15 +67,15 @@
                     <td>
                       <h6>
                         <span class="badge badge-secondary p-2" v-if="antrian.status == 'hold'">
-                          <i class="fas fa-upload"></i>
+                          <i class="fas fa-upload mr-1"></i>
                           Hold
                         </span>
                         <span class="badge badge-info p-2" v-if="antrian.status == 'cuci'">
-                          <i class="fas fa-tshirt"></i>
+                          <i class="fas fa-tshirt mr-1"></i>
                           Sedang Cuci
                         </span>
                         <span class="badge badge-success p-2" v-if="antrian.status == 'selesai'">
-                          <i class="fas fa-check-circle"></i>
+                          <i class="fas fa-check-circle mr-1"></i>
                           Selesai Cuci
                         </span>
                       </h6>
@@ -107,21 +107,21 @@
                           class="badge badge-warning p-2"
                           v-if="antrian.pembayaran === 'pending'"
                         >
-                          <i class="fas fa-circle"></i>
+                          <i class="fas fa-circle mr-1"></i>
                           Belum Bayar
                         </span>
                         <span class="badge badge-success p-2" v-else>
-                          <i class="fas fa-circle"></i>
+                          <i class="fas fa-circle mr-1"></i>
                           Sudah Bayar
                         </span>
                         <br />
                         <br />
                         <span class="badge badge-warning p-2" v-if="antrian.ambil === null">
-                          <i class="fas fa-circle"></i>
+                          <i class="fas fa-circle mr-1"></i>
                           Belum Diambil
                         </span>
                         <span class="badge badge-success p-2" v-else>
-                          <i class="fas fa-circle"></i>
+                          <i class="fas fa-circle mr-1"></i>
                           Sudah Diambil
                         </span>
                       </h6>
@@ -142,10 +142,7 @@
                   <button
                     class="page-link"
                     href="#"
-                    v-if="
-                                            this.current_page !==
-                                                this.first_page
-                                        "
+                    v-if="this.current_page !== this.first_page"
                     @click="prevPage"
                   >Previous</button>
                 </li>
@@ -157,9 +154,7 @@
                     class="page-link"
                     href="#"
                     @click="nextPage"
-                    v-if="
-                                            this.current_page !== this.last_page
-                                        "
+                    v-if="this.current_page !== this.last_page"
                   >Next</button>
                 </li>
               </ul>
@@ -186,7 +181,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action method="POST" enctype="multipart/form-data" @submit.prevent="addAntrian">
+          <form action method="POST" @submit.prevent="addAntrian">
             <div class="modal-body">
               <div class="alert alert-danger" v-if="errors.length > 0">
                 <ul>
@@ -380,7 +375,7 @@ export default {
           $("#modalAdd").modal("toggle");
           alertify.success("Success Create Antrian!");
           this.displayData();
-          this.name = "";
+          this.member = "";
         })
         .catch((error) => {
           this.addLoading = false;

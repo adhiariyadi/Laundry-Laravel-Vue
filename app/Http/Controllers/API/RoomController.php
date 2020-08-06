@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Room;
+use App\Models\Cucian;
+use App\Models\Antrian;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RoomResource;
@@ -16,7 +19,7 @@ class RoomController extends Controller
      */
     public function index()
     {
-        return new RoomResource(Room::with(['antrian', 'operator'])->orderBy('id', 'desc')->where('date', date('Y-m-d'))->paginate(10));
+        return new RoomResource(Room::with(['antrian.member', 'operator'])->orderBy('id', 'desc')->where('status', '!=', 'selesai')->paginate(10));
     }
 
     /**
@@ -37,7 +40,30 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'antrian' => 'required',
+            'category' => 'required',
+            'qty' => 'required',
+        ]);
+
+        $category = Category::find($request->category);
+
+        Cucian::create([
+            'antrian_id' => $request->antrian,
+            'category_id' => $category->id,
+            'harga' => $category->harga,
+            'quantity' => $request->qty,
+            'total' => $category->harga * $request->qty,
+        ]);
+
+        Antrian::find($request->antrian)->update(['status' => "cuci"]);
+        $room = Room::findorfail($request->antrian);
+        $room->update([
+            'status' => "cuci",
+            'total' => $room->total + ($category->harga * $request->qty)
+        ]);
+
+        return response(['success' => true], 200);
     }
 
     /**
@@ -48,7 +74,7 @@ class RoomController extends Controller
      */
     public function show($id)
     {
-        //
+        return response(['room' => Room::with(['antrian.member', 'operator'])->findOrFail($id), 'category' => Category::all(), 'cucian' => Cucian::with(['category'])->where('antrian_id', $id)->get()]);
     }
 
     /**

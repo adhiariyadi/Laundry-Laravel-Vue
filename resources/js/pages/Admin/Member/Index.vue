@@ -145,7 +145,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action method="POST" enctype="multipart/form-data" @submit.prevent="addMember">
+          <form action method="POST" @submit.prevent="addMember">
             <div class="modal-body">
               <div class="alert alert-danger" v-if="errors.length > 0">
                 <ul>
@@ -209,7 +209,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action method="POST" enctype="multipart/form-data" @submit.prevent="updateMember">
+          <form action method="POST" @submit.prevent="updateMember">
             <div class="modal-body">
               <div class="alert alert-danger" v-if="errors.length > 0">
                 <ul>
@@ -328,7 +328,10 @@ export default {
           $("#modalAdd").modal("toggle");
           alertify.success("Success Create Member!");
           this.displayData();
-          this.name = "";
+          this.add.name = "";
+          this.add.alamat = "";
+          this.add.telp = "";
+          this.add.level = "";
         })
         .catch((error) => {
           this.addLoading = false;
