@@ -3412,6 +3412,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.displayData(this.page);
@@ -59941,15 +59943,17 @@ var render = function() {
                         _c("td", [_vm._v(_vm._s(index + 1))]),
                         _vm._v(" "),
                         _c("td", [
-                          _vm._v(
-                            "\n                    " +
-                              _vm._s(
-                                antrian.member === undefined
-                                  ? "Deleted"
-                                  : antrian.member.name
-                              ) +
-                              "\n                  "
-                          )
+                          _c("span", { staticClass: "text-capitalize" }, [
+                            _vm._v(
+                              "\n                      " +
+                                _vm._s(
+                                  antrian.member === undefined
+                                    ? "Deleted"
+                                    : antrian.member.name
+                                ) +
+                                "\n                    "
+                            )
+                          ])
                         ]),
                         _vm._v(" "),
                         _c("td", [
@@ -59961,9 +59965,7 @@ var render = function() {
                                   [
                                     _c("i", { staticClass: "fas fa-upload" }),
                                     _vm._v(
-                                      "\n                        " +
-                                        _vm._s(antrian.status) +
-                                        "\n                      "
+                                      "\n                        Hold\n                      "
                                     )
                                   ]
                                 )
@@ -59976,9 +59978,7 @@ var render = function() {
                                   [
                                     _c("i", { staticClass: "fas fa-tshirt" }),
                                     _vm._v(
-                                      "\n                        " +
-                                        _vm._s(antrian.status) +
-                                        "\n                      "
+                                      "\n                        Sedang Cuci\n                      "
                                     )
                                   ]
                                 )
@@ -59993,9 +59993,7 @@ var render = function() {
                                       staticClass: "fas fa-check-circle"
                                     }),
                                     _vm._v(
-                                      "\n                        " +
-                                        _vm._s(antrian.status) +
-                                        "\n                      "
+                                      "\n                        Selesai Cuci\n                      "
                                     )
                                   ]
                                 )
@@ -78238,10 +78236,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_axios__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _pages_Admin_Home_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/Admin/Home.vue */ "./resources/js/pages/Admin/Home.vue");
 /* harmony import */ var _pages_Admin_Antrian_Index_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pages/Admin/Antrian/Index.vue */ "./resources/js/pages/Admin/Antrian/Index.vue");
-/* harmony import */ var _pages_Admin_Category_Index_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/Admin/Category/Index.vue */ "./resources/js/pages/Admin/Category/Index.vue");
-/* harmony import */ var _pages_Admin_Member_Index_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/Admin/Member/Index.vue */ "./resources/js/pages/Admin/Member/Index.vue");
-/* harmony import */ var _pages_Admin_Promo_Index_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pages/Admin/Promo/Index.vue */ "./resources/js/pages/Admin/Promo/Index.vue");
-/* harmony import */ var _pages_Auth_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pages/Auth.vue */ "./resources/js/pages/Auth.vue");
+!(function webpackMissingModule() { var e = new Error("Cannot find module './pages/Admin/Room/Index.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _pages_Admin_Category_Index_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/Admin/Category/Index.vue */ "./resources/js/pages/Admin/Category/Index.vue");
+/* harmony import */ var _pages_Admin_Member_Index_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pages/Admin/Member/Index.vue */ "./resources/js/pages/Admin/Member/Index.vue");
+/* harmony import */ var _pages_Admin_Promo_Index_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pages/Admin/Promo/Index.vue */ "./resources/js/pages/Admin/Promo/Index.vue");
+/* harmony import */ var _pages_Auth_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./pages/Auth.vue */ "./resources/js/pages/Auth.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -78260,6 +78259,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
  */
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+
 
 
 
@@ -78300,26 +78300,32 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
       auth: true
     }
   }, {
+    path: "/room",
+    component: !(function webpackMissingModule() { var e = new Error("Cannot find module './pages/Admin/Room/Index.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()),
+    meta: {
+      auth: true
+    }
+  }, {
     path: "/category",
-    component: _pages_Admin_Category_Index_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
+    component: _pages_Admin_Category_Index_vue__WEBPACK_IMPORTED_MODULE_9__["default"],
     meta: {
       auth: true
     }
   }, {
     path: "/member",
-    component: _pages_Admin_Member_Index_vue__WEBPACK_IMPORTED_MODULE_9__["default"],
+    component: _pages_Admin_Member_Index_vue__WEBPACK_IMPORTED_MODULE_10__["default"],
     meta: {
       auth: true
     }
   }, {
     path: "/promo",
-    component: _pages_Admin_Promo_Index_vue__WEBPACK_IMPORTED_MODULE_10__["default"],
+    component: _pages_Admin_Promo_Index_vue__WEBPACK_IMPORTED_MODULE_11__["default"],
     meta: {
       auth: true
     }
   }, {
     path: "/login",
-    component: _pages_Auth_vue__WEBPACK_IMPORTED_MODULE_11__["default"],
+    component: _pages_Auth_vue__WEBPACK_IMPORTED_MODULE_12__["default"],
     meta: {
       auth: false,
       pageType: "auth"

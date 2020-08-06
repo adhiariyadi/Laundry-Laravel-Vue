@@ -56,25 +56,27 @@
                   <tr v-for="(antrian, index) in antrians" v-bind:key="antrian.id">
                     <td>{{ index + 1 }}</td>
                     <td>
-                      {{
-                      antrian.member === undefined
-                      ? "Deleted"
-                      : antrian.member.name
-                      }}
+                      <span class="text-capitalize">
+                        {{
+                        antrian.member === undefined
+                        ? "Deleted"
+                        : antrian.member.name
+                        }}
+                      </span>
                     </td>
                     <td>
                       <h6>
                         <span class="badge badge-secondary p-2" v-if="antrian.status == 'hold'">
                           <i class="fas fa-upload"></i>
-                          {{ antrian.status }}
+                          Hold
                         </span>
                         <span class="badge badge-info p-2" v-if="antrian.status == 'cuci'">
                           <i class="fas fa-tshirt"></i>
-                          {{ antrian.status }}
+                          Sedang Cuci
                         </span>
                         <span class="badge badge-success p-2" v-if="antrian.status == 'selesai'">
                           <i class="fas fa-check-circle"></i>
-                          {{ antrian.status }}
+                          Selesai Cuci
                         </span>
                       </h6>
                     </td>

@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Room;
-use App\Models\Member;
-use App\Models\Antrian;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\AntrianResource;
+use App\Http\Resources\RoomResource;
 
-class AntrianController extends Controller
+class RoomController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +16,7 @@ class AntrianController extends Controller
      */
     public function index()
     {
-        return new AntrianResource(['antrian' => Antrian::with(['member', 'operator'])->orderBy('id', 'desc')->where('date', date('Y-m-d'))->paginate(10), 'member' => Member::all()]);
+        return new RoomResource(Room::with(['antrian', 'operator'])->orderBy('id', 'desc')->where('date', date('Y-m-d'))->paginate(10));
     }
 
     /**
@@ -40,26 +37,7 @@ class AntrianController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'member' => 'required',
-        ]);
-
-        $antrian = Antrian::Create([
-            'member_id' => $request->member,
-            'date' => date('Y-m-d'),
-            'pembayaran' => "pending",
-            'operator' => Auth::user()->id,
-            'status' => "hold",
-        ]);
-
-        Room::create([
-            'antrian_id' => $antrian->id,
-            'total' => 0,
-            'operator' => Auth::user()->id,
-            'status' => "ready",
-        ]);
-
-        return response(['success' => true], 200);
+        //
     }
 
     /**
@@ -70,7 +48,7 @@ class AntrianController extends Controller
      */
     public function show($id)
     {
-        return Antrian::with(['member', 'operator'])->findOrFail($id);
+        //
     }
 
     /**
@@ -81,7 +59,7 @@ class AntrianController extends Controller
      */
     public function edit($id)
     {
-        return Antrian::with(['member', 'operator'])->findOrFail($id);
+        //
     }
 
     /**
@@ -104,7 +82,6 @@ class AntrianController extends Controller
      */
     public function destroy($id)
     {
-        Antrian::find($id)->delete();
-        return response(['success' => true], 200);
+        //
     }
 }
