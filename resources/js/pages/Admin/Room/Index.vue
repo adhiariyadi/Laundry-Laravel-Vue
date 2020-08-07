@@ -51,8 +51,8 @@
                       </span>
                     </td>
                     <td>{{ room.created_at }}</td>
-                    <td>0</td>
-                    <td>Rp. {{ room.total }}</td>
+                    <td>{{ room.antrian.cucian.length }}</td>
+                    <td>Rp. {{ formatPrice(room.total) }}</td>
                     <td>
                       <h6>
                         <span class="badge badge-warning p-2" v-if="room.status === 'ready'">
@@ -66,7 +66,7 @@
                       </h6>
                     </td>
                     <td>
-                      <router-link :to="{path: `/room/${room.id}`}" class="btn btn-info">
+                      <router-link :to="{path: `/room/${room.antrian_id}`}" class="btn btn-info">
                         <i class="fas fa-info-circle mr-1"></i>
                         Detail
                       </router-link>
@@ -139,6 +139,10 @@ export default {
         this.next_page_url = result.data.links.next;
         this.prev_page_url = result.data.links.prev;
       });
+    },
+    formatPrice(value) {
+      let val = (value / 1).toFixed(0).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
     nextPage() {
       let nextPage = this.current_page + 1;

@@ -26,14 +26,15 @@
               </div>
             </div>
             <div class="table-responsive mb-3">
-              <table class="table">
+              <table class="table border-none">
                 <tr>
                   <td>Nama Pelanggan</td>
                   <td>:</td>
                   <td>
                     <span class="text-capitalize">
                       {{
-                      room.antrian.member === undefined
+                      room.antrian.member ===
+                      undefined
                       ? "Deleted"
                       : room.antrian.member.name
                       }}
@@ -48,41 +49,45 @@
                 <tr>
                   <td>Total Item</td>
                   <td>:</td>
-                  <td>{{ cucians.length }}</td>
+                  <td>{{ room.antrian.cucian.length }}</td>
                 </tr>
                 <tr>
                   <td>Total Harga</td>
                   <td>:</td>
-                  <td>Rp. {{ room.total }}</td>
+                  <td>Rp. {{ formatPrice(room.total) }}</td>
                 </tr>
               </table>
             </div>
-            <button
-              type="button"
-              class="btn btn-success btn-icon icon-left mr-2"
-              :disabled="bayarLoading == true || cucians.length == 0"
-            >
-              <span
-                class="spinner-border spinner-border-sm mr-1"
-                role="status"
-                aria-hidden="true"
-                v-if="bayarLoading == true"
-              ></span>
-              <i class="fas fa-receipt mr-1" v-if="bayarLoading == false"></i> Bayar
-            </button>
-            <button
-              type="button"
-              class="btn btn-success btn-icon icon-left"
-              :disabled="selesaiLoading == true || cucians.length == 0"
-            >
-              <span
-                class="spinner-border spinner-border-sm mr-1"
-                role="status"
-                aria-hidden="true"
-                v-if="selesaiLoading == true"
-              ></span>
-              <i class="fas fa-check-circle mr-1" v-if="selesaiLoading == false"></i> Set selesai
-            </button>
+            <form action method="POST" @submit.prevent="setSelesai">
+              <button
+                type="button"
+                class="btn btn-success btn-icon icon-left mr-2 disabled"
+                v-if="room.antrian.cucian.length == 0 || room.antrian.pembayaran == 'selesai'"
+              >
+                <i class="fas fa-receipt mr-1"></i> Bayar
+              </button>
+              <router-link
+                :to="{ path: `/bayar/${this.id}` }"
+                class="btn btn-success btn-icon icon-left mr-2"
+                v-else
+              >
+                <i class="fas fa-receipt mr-1"></i> Bayar
+              </router-link>
+              <button
+                type="submit"
+                class="btn btn-success btn-icon icon-left"
+                :disabled="selesaiLoading == true || room.antrian.cucian.length == 0 || room.status == 'selesai'"
+              >
+                <span
+                  class="spinner-border spinner-border-sm mr-1"
+                  role="status"
+                  aria-hidden="true"
+                  v-if="selesaiLoading == true"
+                ></span>
+                <i class="fas fa-check-circle mr-1" v-if="selesaiLoading == false"></i>
+                Set selesai
+              </button>
+            </form>
           </div>
         </div>
       </div>
@@ -123,8 +128,22 @@
                     - ({{ category.satuan }})
                   </li>
                   <li v-else>Produk :</li>
-                  <li>Harga : Rp. {{ category.harga === undefined ? 0 : category.harga }}</li>
-                  <li>Total : Rp. {{ qty === "" ? 0 : category.harga * qty }}</li>
+                  <li>
+                    Harga : Rp.
+                    {{
+                    category.harga === undefined
+                    ? 0
+                    : formatPrice(category.harga)
+                    }}
+                  </li>
+                  <li>
+                    Total : Rp.
+                    {{
+                    qty === ""
+                    ? 0
+                    : formatPrice(category.harga * qty)
+                    }}
+                  </li>
                 </ul>
               </div>
               <button type="submit" class="btn btn-primary" :disabled="addLoading == true">
@@ -134,7 +153,8 @@
                   aria-hidden="true"
                   v-if="addLoading == true"
                 ></span>
-                <i class="ti-plus mr-1" v-if="addLoading == false"></i> Tambah
+                <i class="ti-plus mr-1" v-if="addLoading == false"></i>
+                Tambah
               </button>
             </form>
           </div>
@@ -149,17 +169,17 @@
               </div>
             </div>
             <div class="table-responsive">
-              <table class="table">
+              <table class="table table-hover table-lg">
                 <thead>
                   <th>Category</th>
                   <th>Qty</th>
                   <th>Total</th>
                 </thead>
                 <tbody>
-                  <tr v-for="cucian in cucians" v-bind:key="cucian.id">
+                  <tr v-for="cucian in room.antrian.cucian" v-bind:key="cucian.id">
                     <td>{{ cucian.category.name }}</td>
-                    <td>{{ cucian.quantity }}</td>
-                    <td>{{ cucian.total }}</td>
+                    <td>{{ cucian.quantity }} {{ cucian.category.satuan }}</td>
+                    <td>Rp. {{ formatPrice(cucian.total) }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -176,35 +196,34 @@
 <script>
 export default {
   mounted() {
-    this.room_id = this.$route.params.room_id;
-    this.displayData(this.room_id);
+    this.id = this.$route.params.id;
+    this.displayData(this.id);
+    $("#modalDetail").modal("show");
+    $(".modal-backdrop.fade").removed(".show");
   },
   data() {
     return {
-      room_id: "",
+      id: "",
       category: {},
       qty: "",
       room: {},
       categories: [],
-      cucians: [],
       errors: [],
       addLoading: false,
-      bayarLoading: false,
       selesaiLoading: false,
     };
   },
   methods: {
-    displayData(room_id) {
-      axios.get(`/api/v1/room/${room_id}`).then((result) => {
+    displayData(id) {
+      axios.get(`/api/v1/room/${id}`).then((result) => {
         this.room = result.data.room;
         this.categories = result.data.category;
-        this.cucians = result.data.cucian;
       });
     },
     addCucian() {
       this.addLoading = true;
       const formData = new FormData();
-      formData.append("antrian", this.room_id);
+      formData.append("antrian", this.id);
       formData.append("category", this.category.id);
       formData.append("qty", this.qty);
       axios
@@ -214,8 +233,8 @@ export default {
         .then((res) => {
           this.addLoading = false;
           this.errors = [];
-          alertify.success("Success Create Antrian!");
-          this.displayData(this.room_id);
+          alertify.success("Success Add Cucian!");
+          this.displayData(this.id);
           this.category = {};
           this.qty = "";
         })
@@ -229,6 +248,42 @@ export default {
           }
         });
     },
+    setSelesai() {
+      this.selesaiLoading = true;
+      const formData = new FormData();
+      formData.append("antrian", this.id);
+      axios
+        .post("/api/v1/selesai", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((res) => {
+          this.selesaiLoading = false;
+          this.errors = [];
+          alertify.success("The laundry is finished!");
+          this.displayData(this.id);
+        })
+        .catch((error) => {
+          this.addLoading = false;
+          let statusCode = error.response.status;
+          if (statusCode == 500) {
+            this.errors = { error: "Terjadi kesalahan sistem." };
+          } else if (statusCode == 400) {
+            this.errors = error.response.data.errors;
+          }
+        });
+    },
+    formatPrice(value) {
+      let val = (value / 1).toFixed(0).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
   },
 };
 </script>
+<style>
+.table.border-none th,
+.table.border-none td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: none;
+}
+</style>

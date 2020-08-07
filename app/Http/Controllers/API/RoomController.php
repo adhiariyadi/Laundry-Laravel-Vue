@@ -9,6 +9,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RoomResource;
+use App\Models\Promo;
 
 class RoomController extends Controller
 {
@@ -19,7 +20,7 @@ class RoomController extends Controller
      */
     public function index()
     {
-        return new RoomResource(Room::with(['antrian.member', 'operator'])->orderBy('id', 'desc')->where('status', '!=', 'selesai')->paginate(10));
+        return new RoomResource(Room::with(['antrian.member', 'antrian.cucian', 'operator'])->orderBy('id', 'desc')->where('status', '!=', 'selesai')->paginate(10));
     }
 
     /**
@@ -74,7 +75,7 @@ class RoomController extends Controller
      */
     public function show($id)
     {
-        return response(['room' => Room::with(['antrian.member', 'operator'])->findOrFail($id), 'category' => Category::all(), 'cucian' => Cucian::with(['category'])->where('antrian_id', $id)->get()]);
+        return response(['room' => Room::with(['antrian.member', 'antrian.cucian.category', 'operator'])->where('antrian_id', $id)->first(), 'category' => Category::all()]);
     }
 
     /**
@@ -85,7 +86,10 @@ class RoomController extends Controller
      */
     public function edit($id)
     {
-        //
+        $huruf = "QWERTYUIOPLKJHGFDSAZXCVBNM";
+        $angka = "1234567890";
+        $kode  = substr(str_shuffle($huruf), 0, 2) . substr(str_shuffle($angka), 0, 2);
+        return response(['room' => Room::with(['antrian.member.level', 'antrian.cucian.category', 'operator'])->where('antrian_id', $id)->first(), 'kode' => $kode]);
     }
 
     /**
@@ -109,5 +113,49 @@ class RoomController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function selesai(Request $request)
+    {
+        $request->validate([
+            'antrian' => 'required',
+        ]);
+
+        Antrian::find($request->antrian)->update(['selesai' => date('Y-m-d H:i:s'), 'status' => "selesai"]);
+        Room::find($request->antrian)->update(['status' => "selesai"]);
+
+        return response(['success' => true], 200);
+    }
+
+    public function ambil(Request $request)
+    {
+        $request->validate([
+            'antrian' => 'required',
+        ]);
+
+        Antrian::find($request->antrian)->update(['ambil' => date('Y-m-d H:i:s')]);
+
+        return response(['success' => true], 200);
+    }
+
+    public function promo(Request $request)
+    {
+        $promo = Promo::where('kode', strtoupper($request->kode))->first();
+
+        if ($promo == true) {
+            return response(['status' => "success", 'promo' => $promo]);
+        } else {
+            return response(['status' => "error"]);
+        }
+    }
+
+    public function kembali(Request $request)
+    {
+        if ($request->bayar >= $request->total) {
+            $kembalian = $request->bayar - $request->total;
+            return response(['status' => "success", 'kembali' => $kembalian]);
+        } else {
+            return response(['status' => "error"]);
+        }
     }
 }

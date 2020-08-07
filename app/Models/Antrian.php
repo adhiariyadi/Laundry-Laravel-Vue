@@ -15,6 +15,16 @@ class Antrian extends Model
         return $this->belongsTo('App\Models\Member', 'member_id');
     }
 
+    public function room()
+    {
+        return $this->hasOne('App\Models\Room');
+    }
+
+    public function cucian()
+    {
+        return $this->hasMany('App\Models\Cucian');
+    }
+
     public function operator()
     {
         return $this->belongsTo('App\User', 'operator');

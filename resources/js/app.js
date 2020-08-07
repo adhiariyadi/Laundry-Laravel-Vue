@@ -28,6 +28,7 @@ import Home from "./pages/Admin/Home.vue";
 import Antrian from "./pages/Admin/Antrian/Index.vue";
 import Room from "./pages/Admin/Room/Index.vue";
 import DetailRoom from "./pages/Admin/Room/Detail.vue";
+import BayarRoom from "./pages/Admin/Room/Bayar.vue";
 import Category from "./pages/Admin/Category/Index.vue";
 import Member from "./pages/Admin/Member/Index.vue";
 import Promo from "./pages/Admin/Promo/Index.vue";
@@ -52,7 +53,8 @@ const router = new VueRouter({
         { path: "/", component: Home, meta: { auth: true } },
         { path: "/antrian", component: Antrian, meta: { auth: true } },
         { path: "/room", component: Room, meta: { auth: true } },
-        { path: "/room/:room_id", component: DetailRoom, meta: { auth: true } },
+        { path: "/room/:id", component: DetailRoom, meta: { auth: true } },
+        { path: "/bayar/:id", component: BayarRoom, meta: { auth: true } },
         { path: "/category", component: Category, meta: { auth: true } },
         { path: "/member", component: Member, meta: { auth: true } },
         { path: "/promo", component: Promo, meta: { auth: true } },

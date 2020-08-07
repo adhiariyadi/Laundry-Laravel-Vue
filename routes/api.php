@@ -24,6 +24,10 @@ Route::prefix('v1')->group(function () {
 
             Route::resource('/antrian', 'API\AntrianController');
             Route::resource('/room', 'API\RoomController');
+            Route::post('/cekPromo', 'API\RoomController@promo');
+            Route::post('/kembali', 'API\RoomController@kembali');
+            Route::post('/selesai', 'API\RoomController@selesai');
+            Route::post('/ambil', 'API\RoomController@ambil');
 
             Route::resource('/category', 'API\CategoryController');
             Route::resource('/member', 'API\MemberController');

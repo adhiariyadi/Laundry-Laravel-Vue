@@ -100,7 +100,7 @@
                         }}
                       </b>
                     </td>
-                    <td>Rp. 0</td>
+                    <td>Rp. {{ formatPrice(antrian.room.total) }}</td>
                     <td>
                       <h6>
                         <span
@@ -241,7 +241,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <table class="table">
+            <table class="table border-none">
               <tr>
                 <td>Pelanggan</td>
                 <td>
@@ -295,24 +295,42 @@
           </div>
           <div class="modal-footer">
             <div style="text-align: center;">
-              <a href="#" class="btn btn-lg btn-success btn-icon icon-left disabled mr-2">
-                <i class="fas fa-receipt"></i> Bayar
-              </a>
-              <a
-                href="#"
-                class="btn btn-lg btn-success btn-icon icon-left disabled mr-2"
-                id="btnPickUp"
+              <button
+                type="button"
+                @click="bayar(detail.id)"
+                class="btn btn-success btn-icon icon-left mr-2"
+                :disabled="cucians == 0 || detail.pembayaran == 'selesai'"
               >
-                <i class="fas fa-check-circle"></i> Set sudah di ambil
-              </a>
-              <a href="#" class="btn btn-lg btn-success btn-icon icon-left disabled">
+                <i class="fas fa-receipt mr-1"></i> Bayar
+              </button>
+              <button
+                type="button"
+                @click="setAmbil(detail.id)"
+                class="btn btn-success btn-icon icon-left mr-2"
+                :disabled="ambilLoading == true || detail.ambil !== null"
+              >
+                <span
+                  class="spinner-border spinner-border-sm mr-1"
+                  role="status"
+                  aria-hidden="true"
+                  v-if="ambilLoading == true"
+                ></span>
+                <i class="fas fa-check-circle mr-1" v-if="ambilLoading == false"></i>
+                Set sudah diambil
+              </button>
+              <button
+                type="button"
+                @click="laundryRoom(detail.id)"
+                class="btn btn-success btn-icon icon-left"
+                :disabled="detail.status == 'selesai'"
+              >
                 <i class="fas fa-tshirt"></i> Ke laundry room
-              </a>
+              </button>
               <button
                 type="button"
                 @click="deleteAntrian(detail.id)"
                 class="btn btn-lg btn-warning btn-icon icon-left mt-3"
-                v-if="detail.status !== 'selesai' && detail.pembayaran !== 'selesai' && detail.ambil === null && detail.selesai === null"
+                :disabled="detail.status === 'selesai' && detail.pembayaran === 'selesai' && detail.ambil !== null && detail.selesai !== null"
               >
                 <i class="fas fa-trash-alt"></i> Batalkan Cucian
               </button>
@@ -336,8 +354,10 @@ export default {
       antrians: [],
       members: [],
       detail: {},
+      cucian: 0,
       errors: [],
       addLoading: false,
+      ambilLoading: false,
       first_page: 1,
       page: 1,
       last_page: null,
@@ -389,9 +409,43 @@ export default {
     },
     detailAntrian(id) {
       axios.get(`/api/v1/antrian/${id}`).then((result) => {
-        this.detail = result.data;
+        this.detail = result.data.antrian;
+        this.cucian = result.data.cucian;
         $("#modalDetail").modal("show");
       });
+    },
+    bayar(id) {
+      $("#modalDetail").modal("toggle");
+      this.$router.push(`/bayar/${id}`);
+    },
+    setAmbil(id) {
+      this.ambilLoading = true;
+      const formData = new FormData();
+      formData.append("antrian", id);
+      axios
+        .post("/api/v1/ambil", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((res) => {
+          this.ambilLoading = false;
+          this.errors = [];
+          alertify.success("The laundry is finished!");
+          $("#modalDetail").modal("toggle");
+          this.displayData(this.room_id);
+        })
+        .catch((error) => {
+          this.addLoading = false;
+          let statusCode = error.response.status;
+          if (statusCode == 500) {
+            this.errors = { error: "Terjadi kesalahan sistem." };
+          } else if (statusCode == 400) {
+            this.errors = error.response.data.errors;
+          }
+        });
+    },
+    laundryRoom(id) {
+      $("#modalDetail").modal("toggle");
+      this.$router.push(`/room/${id}`);
     },
     deleteAntrian(id) {
       const that = this;
@@ -411,6 +465,10 @@ export default {
         }
       );
     },
+    formatPrice(value) {
+      let val = (value / 1).toFixed(0).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
     nextPage() {
       let nextPage = this.current_page + 1;
       window.history.replaceState(null, null, "?page=" + nextPage);
@@ -428,3 +486,11 @@ export default {
   },
 };
 </script>
+<style>
+.table.border-none th,
+.table.border-none td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: none;
+}
+</style>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Room;
+use App\Models\Cucian;
 use App\Models\Member;
 use App\Models\Antrian;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class AntrianController extends Controller
      */
     public function index()
     {
-        return new AntrianResource(['antrian' => Antrian::with(['member', 'operator'])->orderBy('id', 'desc')->where('date', date('Y-m-d'))->paginate(10), 'member' => Member::all()]);
+        return new AntrianResource(['antrian' => Antrian::with(['member', 'room', 'operator'])->orderBy('id', 'desc')->where('date', date('Y-m-d'))->paginate(10), 'member' => Member::all()]);
     }
 
     /**
@@ -70,7 +71,7 @@ class AntrianController extends Controller
      */
     public function show($id)
     {
-        return Antrian::with(['member', 'operator'])->findOrFail($id);
+        return response(['antrian' => Antrian::with(['member', 'operator'])->findOrFail($id), 'cucian' => Cucian::where('antrian_id', $id)->count()]);
     }
 
     /**

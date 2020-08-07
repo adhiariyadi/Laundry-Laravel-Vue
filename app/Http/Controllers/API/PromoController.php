@@ -60,7 +60,7 @@ class PromoController extends Controller
      */
     public function show($id)
     {
-        //
+        return Promo::where('kode', strtoupper($id))->first();
     }
 
     /**
