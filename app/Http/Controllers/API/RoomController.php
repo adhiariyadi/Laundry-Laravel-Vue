@@ -9,6 +9,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RoomResource;
+use App\Models\Member;
 use App\Models\Promo;
 
 class RoomController extends Controller
@@ -133,7 +134,9 @@ class RoomController extends Controller
             'antrian' => 'required',
         ]);
 
-        Antrian::find($request->antrian)->update(['ambil' => date('Y-m-d H:i:s')]);
+        $antrian = Antrian::with(['member.level'])->find($request->antrian);
+        Member::find($antrian->member_id)->update(['point' => $antrian->member->point + $antrian->member->level->point]);
+        $antrian->update(['ambil' => date('Y-m-d H:i:s')]);
 
         return response(['success' => true], 200);
     }

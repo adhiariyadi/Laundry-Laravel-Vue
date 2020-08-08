@@ -330,7 +330,7 @@
                 type="button"
                 @click="deleteAntrian(detail.id)"
                 class="btn btn-lg btn-danger btn-icon icon-left mt-3"
-                :disabled="detail.pembayaran === 'selesai' || detail.ambil !== null"
+                :disabled="detail.pembayaran === 'selesai' || detail.ambil !== null || detail.selesai !== null"
               >
                 <i class="fas fa-trash-alt mr-1"></i> Batalkan Cucian
               </button>

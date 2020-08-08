@@ -5747,6 +5747,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.displayData();
@@ -5788,8 +5794,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.addLoading = true;
       var formData = new FormData();
-      formData.append("kode", this.edit.kode);
-      formData.append("description", this.edit.description);
+      formData.append("id", this.edit.id);
       formData.append("value", this.edit.value);
       axios.post("/api/v1/setting", formData, {
         headers: {
@@ -5803,6 +5808,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this3.displayData();
 
+        _this3.edit.id = "";
         _this3.edit.name = "";
         _this3.edit.description = "";
         _this3.edit.value = "";
@@ -61850,7 +61856,8 @@ var render = function() {
                             type: "button",
                             disabled:
                               _vm.detail.pembayaran === "selesai" ||
-                              _vm.detail.ambil !== null
+                              _vm.detail.ambil !== null ||
+                              _vm.detail.selesai !== null
                           },
                           on: {
                             click: function($event) {
@@ -65543,26 +65550,26 @@ var render = function() {
                       : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
-                      _c("label", [_vm._v("Kode Setting:")]),
+                      _c("label", [_vm._v("Name:")]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.edit.kode,
-                            expression: "edit.kode"
+                            value: _vm.edit.name,
+                            expression: "edit.name"
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "text", name: "kode" },
-                        domProps: { value: _vm.edit.kode },
+                        attrs: { type: "text", name: "name", readonly: "" },
+                        domProps: { value: _vm.edit.name },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(_vm.edit, "kode", $event.target.value)
+                            _vm.$set(_vm.edit, "name", $event.target.value)
                           }
                         }
                       })
@@ -65571,7 +65578,7 @@ var render = function() {
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", [_vm._v("Description:")]),
                       _vm._v(" "),
-                      _c("textarea", {
+                      _c("input", {
                         directives: [
                           {
                             name: "model",
@@ -65581,7 +65588,11 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { name: "description" },
+                        attrs: {
+                          type: "text",
+                          name: "description",
+                          readonly: ""
+                        },
                         domProps: { value: _vm.edit.description },
                         on: {
                           input: function($event) {
@@ -65599,7 +65610,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
-                      _c("label", [_vm._v("Discount:")]),
+                      _c("label", [_vm._v("Value:")]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -65611,7 +65622,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "number", name: "discount" },
+                        attrs: { type: "text", name: "value" },
                         domProps: { value: _vm.edit.value },
                         on: {
                           input: function($event) {
@@ -65651,7 +65662,7 @@ var render = function() {
                               attrs: { role: "status", "aria-hidden": "true" }
                             })
                           : _vm._e(),
-                        _vm._v("\n              Add\n            ")
+                        _vm._v("\n              Update\n            ")
                       ]
                     )
                   ])

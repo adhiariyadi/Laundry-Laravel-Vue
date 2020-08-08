@@ -37,7 +37,13 @@ class SettingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'value' => 'required',
+        ]);
+
+        Setting::find($request->id)->update(['value' => $request->value]);
+
+        return response(['success' => true], 200);
     }
 
     /**
@@ -48,7 +54,7 @@ class SettingController extends Controller
      */
     public function show($id)
     {
-        //
+        return Setting::findOrFail($id);
     }
 
     /**

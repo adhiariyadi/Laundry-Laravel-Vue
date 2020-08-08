@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Kas;
 use App\Models\Promo;
 use App\Models\Antrian;
 use App\Models\Pembayaran;
@@ -68,6 +69,13 @@ class PembayaranController extends Controller
         ]);
 
         $antrian->update(['pembayaran' => "selesai"]);
+
+        Kas::create([
+            'invoice' => "INV-$antrian->date-$request->kode",
+            'description' => "Pembayaran Cucian",
+            'ket' => "Masuk",
+            'jumlah' => $antrian->room->total - $discount,
+        ]);
 
         return response(['success' => true, 'antrian' => $antrian], 200);
     }

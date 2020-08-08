@@ -83,16 +83,22 @@
                 </ul>
               </div>
               <div class="form-group">
-                <label>Kode Setting:</label>
-                <input type="text" name="kode" class="form-control" v-model="edit.kode" />
+                <label>Name:</label>
+                <input type="text" name="name" class="form-control" v-model="edit.name" readonly />
               </div>
               <div class="form-group">
                 <label>Description:</label>
-                <textarea name="description" class="form-control" v-model="edit.description"></textarea>
+                <input
+                  type="text"
+                  name="description"
+                  class="form-control"
+                  v-model="edit.description"
+                  readonly
+                />
               </div>
               <div class="form-group">
-                <label>Discount:</label>
-                <input type="number" name="discount" class="form-control" v-model="edit.value" />
+                <label>Value:</label>
+                <input type="text" name="value" class="form-control" v-model="edit.value" />
               </div>
             </div>
             <div class="modal-footer">
@@ -104,7 +110,7 @@
                   aria-hidden="true"
                   v-if="addLoading == true"
                 ></span>
-                Add
+                Update
               </button>
             </div>
           </form>
@@ -151,8 +157,7 @@ export default {
     updateSetting() {
       this.addLoading = true;
       const formData = new FormData();
-      formData.append("kode", this.edit.kode);
-      formData.append("description", this.edit.description);
+      formData.append("id", this.edit.id);
       formData.append("value", this.edit.value);
       axios
         .post("/api/v1/setting", formData, {
@@ -164,6 +169,7 @@ export default {
           $("#modalEdit").modal("toggle");
           alertify.success("Success Update Setting!");
           this.displayData();
+          this.edit.id = "";
           this.edit.name = "";
           this.edit.description = "";
           this.edit.value = "";

@@ -17,7 +17,7 @@ class CreateKasTable extends Migration
             $table->bigIncrements('id');
             $table->string('invoice');
             $table->string('description');
-            $table->string('ket');
+            $table->enum('ket', ['Masuk', 'Keluar']);
             $table->integer('jumlah');
             $table->timestamps();
         });
