@@ -146,7 +146,11 @@
                   </li>
                 </ul>
               </div>
-              <button type="submit" class="btn btn-primary" :disabled="addLoading == true">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                :disabled="addLoading == true || room.antrian.pembayaran == 'selesai'"
+              >
                 <span
                   class="spinner-border spinner-border-sm mr-1"
                   role="status"
@@ -260,7 +264,7 @@ export default {
           this.selesaiLoading = false;
           this.errors = [];
           alertify.success("The laundry is finished!");
-          this.displayData(this.id);
+          this.$router.push(`/antrian`);
         })
         .catch((error) => {
           this.addLoading = false;

@@ -28,6 +28,7 @@ Route::prefix('v1')->group(function () {
             Route::post('/kembali', 'API\RoomController@kembali');
             Route::post('/selesai', 'API\RoomController@selesai');
             Route::post('/ambil', 'API\RoomController@ambil');
+            Route::resource('/pembayaran', 'API\PembayaranController');
 
             Route::resource('/category', 'API\CategoryController');
             Route::resource('/member', 'API\MemberController');

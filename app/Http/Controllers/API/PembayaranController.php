@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Room;
-use App\Models\Cucian;
-use App\Models\Member;
+use App\Models\Promo;
 use App\Models\Antrian;
+use App\Models\Pembayaran;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\AntrianResource;
 
-class AntrianController extends Controller
+class PembayaranController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +18,7 @@ class AntrianController extends Controller
      */
     public function index()
     {
-        return new AntrianResource(['antrian' => Antrian::with(['member', 'room', 'operator'])->orderBy('id', 'desc')->where('date', '>=',  date('Y-m-d', strtotime("-1 day", strtotime(date("Y-m-d")))))->paginate(10), 'member' => Member::all()]);
+        //
     }
 
     /**
@@ -42,25 +40,36 @@ class AntrianController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'member' => 'required',
+            'antrian' => 'required',
+            'kode' => 'required',
         ]);
 
-        $antrian = Antrian::Create([
-            'member_id' => $request->member,
-            'date' => date('Y-m-d'),
-            'pembayaran' => "pending",
-            'operator' => Auth::user()->id,
-            'status' => "hold",
-        ]);
+        $antrian = Antrian::with(['room', 'member.level', 'cucian.category'])->find($request->antrian);
+        $promo = Promo::where('kode', strtoupper($request->promo))->first();
 
-        Room::create([
+        if ($promo) {
+            $discount = ($antrian->room->total * $antrian->member->level->discount / 100) + (($antrian->room->total - ($antrian->room->total * $antrian->member->level->discount / 100)) * $promo->discount / 100);
+        } else {
+            $discount = ($antrian->room->total * $antrian->member->level->discount / 100);
+        }
+
+        Pembayaran::create([
+            'invoice' => "INV-$antrian->date-$request->kode",
             'antrian_id' => $antrian->id,
-            'total' => 0,
+            'waktu' => date('Y-m-d H:i:s'),
+            'jumlah_cuci' => $antrian->cucian->count(),
+            'harga' => $antrian->room->total,
+            'discount' => $discount,
+            'total' => $antrian->room->total - $discount,
+            'bayar' => $request->bayar,
+            'kembali' => $request->bayar - ($antrian->room->total - $discount),
+            'payment_method' => "Uang Cash",
             'operator' => Auth::user()->id,
-            'status' => "ready",
         ]);
 
-        return response(['success' => true], 200);
+        $antrian->update(['pembayaran' => "selesai"]);
+
+        return response(['success' => true, 'antrian' => $antrian], 200);
     }
 
     /**
@@ -71,7 +80,7 @@ class AntrianController extends Controller
      */
     public function show($id)
     {
-        return response(['antrian' => Antrian::with(['member', 'operator'])->findOrFail($id), 'cucian' => Cucian::where('antrian_id', $id)->count()]);
+        //
     }
 
     /**
@@ -82,7 +91,7 @@ class AntrianController extends Controller
      */
     public function edit($id)
     {
-        // 
+        //
     }
 
     /**
@@ -105,8 +114,6 @@ class AntrianController extends Controller
      */
     public function destroy($id)
     {
-        Antrian::find($id)->delete();
-        Room::where('antrian_id', $id)->delete();
-        return response(['success' => true], 200);
+        //
     }
 }

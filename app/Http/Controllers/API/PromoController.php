@@ -16,7 +16,7 @@ class PromoController extends Controller
      */
     public function index(Request $request)
     {
-        return new PromoResource(Promo::where('kode', 'LIKE', "%$request->search%")->orderBy('id', 'desc')->paginate(10));
+        return new PromoResource(Promo::where('kode', 'LIKE', strtoupper("%$request->search%"))->orderBy('id', 'desc')->paginate(10));
     }
 
     /**

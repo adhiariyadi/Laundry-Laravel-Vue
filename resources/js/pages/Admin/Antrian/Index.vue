@@ -307,7 +307,7 @@
                 type="button"
                 @click="setAmbil(detail.id)"
                 class="btn btn-success btn-icon icon-left mr-2"
-                :disabled="ambilLoading == true || detail.ambil !== null"
+                :disabled="ambilLoading == true || detail.pembayaran != 'selesai' || detail.status != 'selesai' || detail.ambil !== null"
               >
                 <span
                   class="spinner-border spinner-border-sm mr-1"

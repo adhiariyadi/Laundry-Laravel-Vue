@@ -4986,6 +4986,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.id = this.$route.params.id;
@@ -5002,12 +5018,14 @@ __webpack_require__.r(__webpack_exports__);
       promo: "",
       discount: 0,
       promoInput: false,
+      promoLoading: false,
+      errorPromo: false,
       bayar: 0,
       bayarInput: false,
+      bayarLoading: false,
+      errorBayar: false,
       kembalian: 0,
-      error: false,
-      promoLoading: false,
-      bayarLoading: false
+      addLoading: false
     };
   },
   methods: {
@@ -5032,51 +5050,28 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         if (result.data.status == "success") {
           _this2.promoLoading = false;
-          _this2.error = false;
+          _this2.errorPromo = false;
           alertify.success("Success Add Promo!");
-
-          _this2.displayData(_this2.id);
-
           _this2.promo = "<td>Promo</td><td>".concat(result.data.promo.description, " - ").concat(result.data.promo.discount, "%</td>");
           _this2.discount = result.data.promo.discount;
           _this2.promoInput = true;
           _this2.kodePromo = result.data.promo.kode;
         } else {
           _this2.promoLoading = false;
-          _this2.error = true;
+          _this2.errorPromo = true;
           alertify.error("Promo not found!");
-
-          _this2.displayData(_this2.id);
-
           _this2.promo = "";
           _this2.kodePromo = "";
         }
-      })["catch"](function (error) {
-        _this2.promoLoading = false;
-        var statusCode = error.response.status;
-
-        if (statusCode == 500) {
-          _this2.errors = {
-            error: "Terjadi kesalahan sistem."
-          };
-        } else if (statusCode == 400) {
-          _this2.errors = error.response.data.errors;
-        }
       });
     },
-    hitungKembalian: function hitungKembalian() {
+    hitungKembalian: function hitungKembalian(id) {
       var _this3 = this;
 
       this.bayarLoading = true;
-      var totalPrice = this.room.total - this.room.total * this.room.antrian.member.level.discount / 100 - (this.room.total - this.room.total * this.room.antrian.member.level.discount / 100) * discount / 100;
       var formData = new FormData();
-      formData.append("total", totalPrice);
+      formData.append("total", id);
       formData.append("bayar", this.bayar);
-
-      if (this.bayar >= totalPrice) {}
-
-      this.bayarLoading = false;
-      this.error = true;
       axios.post("/api/v1/kembali", formData, {
         headers: {
           "Content-Type": "multipart/form-data"
@@ -5085,59 +5080,42 @@ __webpack_require__.r(__webpack_exports__);
         if (result.data.status == "success") {
           _this3.bayarInput = true;
           _this3.bayarLoading = false;
-          _this3.kembalian = result.data.kembalian;
-          _this3.error = false;
-          alertify.success("Success Add Promo!");
-
-          _this3.displayData(_this3.id);
+          _this3.kembalian = result.data.kembali;
+          _this3.errorBayar = false;
+          alertify.success("Payment Success!");
         } else {
           _this3.bayarLoading = false;
-          _this3.error = true;
+          _this3.errorBayar = true;
           alertify.error("sorry you don't have enough money!");
-
-          _this3.displayData(_this3.id);
-        }
-      })["catch"](function (error) {
-        _this3.promoLoading = false;
-        var statusCode = error.response.status;
-
-        if (statusCode == 500) {
-          _this3.errors = {
-            error: "Terjadi kesalahan sistem."
-          };
-        } else if (statusCode == 400) {
-          _this3.errors = error.response.data.errors;
         }
       });
     },
-    // addCucian() {
-    //   this.addLoading = true;
-    //   const formData = new FormData();
-    //   formData.append("antrian", this.id);
-    //   formData.append("category", this.category.id);
-    //   formData.append("qty", this.qty);
-    //   axios
-    //     .post("/api/v1/room", formData, {
-    //       headers: { "Content-Type": "multipart/form-data" },
-    //     })
-    //     .then((res) => {
-    //       this.addLoading = false;
-    //       this.errors = [];
-    //       alertify.success("Success Add Cucian!");
-    //       this.displayData(this.id);
-    //       this.category = {};
-    //       this.qty = "";
-    //     })
-    //     .catch((error) => {
-    //       this.addLoading = false;
-    //       let statusCode = error.response.status;
-    //       if (statusCode == 500) {
-    //         this.errors = { error: "Terjadi kesalahan sistem." };
-    //       } else if (statusCode == 400) {
-    //         this.errors = error.response.data.errors;
-    //       }
-    //     });
-    // },
+    addBayar: function addBayar() {
+      var _this4 = this;
+
+      this.addLoading = true;
+      var formData = new FormData();
+      formData.append("antrian", this.id);
+      formData.append("kode", this.kode);
+      formData.append("promo", this.kodePromo);
+      formData.append("bayar", this.bayar);
+      axios.post("/api/v1/pembayaran", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      }).then(function (result) {
+        _this4.addLoading = false;
+        alertify.success("Transaction Success!");
+
+        if (result.data.antrian.selesai == null) {
+          _this4.$router.push("/room/".concat(result.data.antrian.id));
+        } else {
+          _this4.$router.push("/antrian");
+        }
+      })["catch"](function (error) {
+        _this4.addLoading = false;
+      });
+    },
     formatPrice: function formatPrice(value) {
       var val = (value / 1).toFixed(0).replace(".", ",");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -5156,6 +5134,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -5428,7 +5410,7 @@ __webpack_require__.r(__webpack_exports__);
         _this3.errors = [];
         alertify.success("The laundry is finished!");
 
-        _this3.displayData(_this3.id);
+        _this3.$router.push("/antrian");
       })["catch"](function (error) {
         _this3.addLoading = false;
         var statusCode = error.response.status;
@@ -61576,6 +61558,8 @@ var render = function() {
                             type: "button",
                             disabled:
                               _vm.ambilLoading == true ||
+                              _vm.detail.pembayaran != "selesai" ||
+                              _vm.detail.status != "selesai" ||
                               _vm.detail.ambil !== null
                           },
                           on: {
@@ -64181,205 +64165,268 @@ var render = function() {
             _vm._m(4),
             _vm._v(" "),
             _c("div", { staticClass: "table-responsive mb-3" }, [
-              _c("table", { staticClass: "table border-none" }, [
-                _c("tr", [
-                  _c("td", [_vm._v("Harga")]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v("Rp. " + _vm._s(_vm.formatPrice(_vm.room.total)))
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("td", [
-                    _vm._v(
-                      "\n                  Disc (" +
-                        _vm._s(
-                          _vm.room.antrian.member === undefined
-                            ? 0
-                            : _vm.room.antrian.member.level.discount
-                        ) +
-                        "%)\n                "
-                    )
+              _c(
+                "form",
+                {
+                  attrs: { action: "", method: "POST" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.addBayar($event)
+                    }
+                  }
+                },
+                [
+                  _c("table", { staticClass: "table border-none" }, [
+                    _c("tr", [
+                      _c("td", [_vm._v("Harga")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v("Rp. " + _vm._s(_vm.formatPrice(_vm.room.total)))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [
+                        _vm._v(
+                          "\n                    Disc (" +
+                            _vm._s(
+                              _vm.room.antrian.member === undefined
+                                ? 0
+                                : _vm.room.antrian.member.level.discount
+                            ) +
+                            "%)\n                  "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                    Rp. " +
+                            _vm._s(
+                              _vm.room.antrian.member === undefined
+                                ? 0
+                                : _vm.formatPrice(
+                                    (_vm.room.total *
+                                      _vm.room.antrian.member.level.discount) /
+                                      100
+                                  )
+                            ) +
+                            "\n                  "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Kode Promo")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("div", { staticClass: "input-group" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.kodePromo,
+                                expression: "kodePromo"
+                              }
+                            ],
+                            class: {
+                              "form-control": true,
+                              "is-invalid": this.errorPromo
+                            },
+                            attrs: {
+                              type: "text",
+                              placeholder: "Kode Promo",
+                              disabled: _vm.promoInput == true
+                            },
+                            domProps: { value: _vm.kodePromo },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.kodePromo = $event.target.value
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "input-group-append" }, [
+                            _vm.promoInput == false
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success",
+                                    attrs: { type: "button" },
+                                    on: { click: _vm.cekPromo }
+                                  },
+                                  [
+                                    _vm.promoLoading == true
+                                      ? _c("span", {
+                                          staticClass:
+                                            "spinner-border spinner-border-sm mr-1",
+                                          attrs: {
+                                            role: "status",
+                                            "aria-hidden": "true"
+                                          }
+                                        })
+                                      : _vm._e(),
+                                    _vm._v(" Gunakan\n                        ")
+                                  ]
+                                )
+                              : _vm._e()
+                          ])
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", { domProps: { innerHTML: _vm._s(_vm.promo) } }),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Total")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "Rp. " +
+                            _vm._s(
+                              _vm.formatPrice(
+                                _vm.room.total -
+                                  (_vm.room.total *
+                                    _vm.room.antrian.member.level.discount) /
+                                    100 -
+                                  ((_vm.room.total -
+                                    (_vm.room.total *
+                                      _vm.room.antrian.member.level.discount) /
+                                      100) *
+                                    _vm.discount) /
+                                    100
+                              )
+                            )
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Bayar")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("div", { staticClass: "input-group" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.bayar,
+                                expression: "bayar"
+                              }
+                            ],
+                            class: {
+                              "form-control": true,
+                              "is-invalid": this.errorBayar
+                            },
+                            attrs: {
+                              type: "number",
+                              placeholder: "Bayar",
+                              disabled: _vm.bayarInput == true
+                            },
+                            domProps: { value: _vm.bayar },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.bayar = $event.target.value
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "input-group-append" }, [
+                            _vm.bayarInput == false
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.hitungKembalian(
+                                          _vm.room.total -
+                                            (_vm.room.total *
+                                              _vm.room.antrian.member.level
+                                                .discount) /
+                                              100 -
+                                            ((_vm.room.total -
+                                              (_vm.room.total *
+                                                _vm.room.antrian.member.level
+                                                  .discount) /
+                                                100) *
+                                              _vm.discount) /
+                                              100
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm.bayarLoading == true
+                                      ? _c("span", {
+                                          staticClass:
+                                            "spinner-border spinner-border-sm mr-1",
+                                          attrs: {
+                                            role: "status",
+                                            "aria-hidden": "true"
+                                          }
+                                        })
+                                      : _vm._e(),
+                                    _vm._v(" Set\n                        ")
+                                  ]
+                                )
+                              : _vm._e()
+                          ])
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Kembali")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v("Rp. " + _vm._s(_vm.formatPrice(_vm.kembalian)))
+                      ])
+                    ])
                   ]),
                   _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      "\n                  Rp. " +
-                        _vm._s(
-                          _vm.room.antrian.member === undefined
-                            ? 0
-                            : _vm.formatPrice(
-                                (_vm.room.total *
-                                  _vm.room.antrian.member.level.discount) /
-                                  100
-                              )
-                        ) +
-                        "\n                "
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("td", [_vm._v("Kode Promo")]),
+                  _c("hr"),
                   _vm._v(" "),
-                  _c("td", [
-                    _c("div", { staticClass: "input-group" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.kodePromo,
-                            expression: "kodePromo"
-                          }
-                        ],
-                        class: {
-                          "form-control": true,
-                          "is-invalid": this.error
-                        },
+                  _c("div", [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success btn-icon icon-left mr-2",
                         attrs: {
-                          type: "text",
-                          placeholder: "Kode Promo",
-                          disabled: _vm.promoInput == true
-                        },
-                        domProps: { value: _vm.kodePromo },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.kodePromo = $event.target.value
-                          }
+                          type: "submit",
+                          disabled:
+                            _vm.addLoading == true || _vm.bayarInput == false
                         }
-                      }),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "input-group-append" }, [
-                        _vm.promoInput == false
-                          ? _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-success",
-                                attrs: { type: "button" },
-                                on: { click: _vm.cekPromo }
-                              },
-                              [
-                                _vm.promoLoading == true
-                                  ? _c("span", {
-                                      staticClass:
-                                        "spinner-border spinner-border-sm mr-1",
-                                      attrs: {
-                                        role: "status",
-                                        "aria-hidden": "true"
-                                      }
-                                    })
-                                  : _vm._e(),
-                                _vm._v(" Gunakan\n                      ")
-                              ]
-                            )
-                          : _vm._e()
-                      ])
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("tr", { domProps: { innerHTML: _vm._s(_vm.promo) } }),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("td", [_vm._v("Total")]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      "Rp. " +
-                        _vm._s(
-                          _vm.formatPrice(
-                            _vm.room.total -
-                              (_vm.room.total *
-                                _vm.room.antrian.member.level.discount) /
-                                100 -
-                              ((_vm.room.total -
-                                (_vm.room.total *
-                                  _vm.room.antrian.member.level.discount) /
-                                  100) *
-                                _vm.discount) /
-                                100
-                          )
+                      },
+                      [
+                        _vm.addLoading == true
+                          ? _c("span", {
+                              staticClass:
+                                "spinner-border spinner-border-sm mr-1",
+                              attrs: { role: "status", "aria-hidden": "true" }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.addLoading == false
+                          ? _c("i", { staticClass: "fas fa-check-circle mr-1" })
+                          : _vm._e(),
+                        _vm._v(
+                          "\n                  Proses pembayaran\n                "
                         )
+                      ]
                     )
                   ])
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("td", [_vm._v("Bayar")]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("div", { staticClass: "input-group" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.bayar,
-                            expression: "bayar"
-                          }
-                        ],
-                        class: {
-                          "form-control": true,
-                          "is-invalid": this.error
-                        },
-                        attrs: {
-                          type: "number",
-                          placeholder: "Bayar",
-                          disabled: _vm.bayarInput == true
-                        },
-                        domProps: { value: _vm.bayar },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.bayar = $event.target.value
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "input-group-append" }, [
-                        _vm.bayarInput == false
-                          ? _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-success",
-                                attrs: { type: "button" },
-                                on: { click: _vm.hitungKembalian }
-                              },
-                              [
-                                _vm.bayarLoading == true
-                                  ? _c("span", {
-                                      staticClass:
-                                        "spinner-border spinner-border-sm mr-1",
-                                      attrs: {
-                                        role: "status",
-                                        "aria-hidden": "true"
-                                      }
-                                    })
-                                  : _vm._e(),
-                                _vm._v(" Set\n                      ")
-                              ]
-                            )
-                          : _vm._e()
-                      ])
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("td", [_vm._v("Kembali")]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v("Rp. " + _vm._s(_vm.formatPrice(_vm.kembalian)))
-                  ])
-                ])
-              ])
+                ]
+              )
             ])
           ])
         ])
@@ -64756,7 +64803,12 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-primary",
-                    attrs: { type: "submit", disabled: _vm.addLoading == true }
+                    attrs: {
+                      type: "submit",
+                      disabled:
+                        _vm.addLoading == true ||
+                        _vm.room.antrian.pembayaran == "selesai"
+                    }
                   },
                   [
                     _vm.addLoading == true
