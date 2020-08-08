@@ -79,9 +79,11 @@
                     <td>
                       <button
                         type="button"
+                        class="btn btn-danger btn-sm"
                         @click="deletePromo(promo.id)"
-                        class="btn btn-danger"
-                      >Hapus</button>
+                      >
+                        <i class="fas fa-trash-alt mr-1"></i> Hapus
+                      </button>
                     </td>
                   </tr>
                 </tbody>

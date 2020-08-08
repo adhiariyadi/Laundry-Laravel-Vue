@@ -87,14 +87,18 @@
                     <td>
                       <button
                         type="button"
-                        class="btn btn-warning"
+                        class="btn btn-warning btn-sm"
                         @click="editMember(member.id)"
-                      >Edit</button>
+                      >
+                        <i class="fas fa-edit mr-1"></i> Edit
+                      </button>
                       <button
                         type="button"
+                        class="btn btn-danger btn-sm"
                         @click="deleteMember(member.id)"
-                        class="btn btn-danger"
-                      >Hapus</button>
+                      >
+                        <i class="fas fa-trash-alt mr-1"></i> Hapus
+                      </button>
                     </td>
                   </tr>
                 </tbody>

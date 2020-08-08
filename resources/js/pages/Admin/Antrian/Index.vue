@@ -324,15 +324,15 @@
                 class="btn btn-success btn-icon icon-left"
                 :disabled="detail.status == 'selesai'"
               >
-                <i class="fas fa-tshirt"></i> Ke laundry room
+                <i class="fas fa-tshirt mr-1"></i> Ke laundry room
               </button>
               <button
                 type="button"
                 @click="deleteAntrian(detail.id)"
-                class="btn btn-lg btn-warning btn-icon icon-left mt-3"
-                :disabled="detail.status === 'selesai' && detail.pembayaran === 'selesai' && detail.ambil !== null && detail.selesai !== null"
+                class="btn btn-lg btn-danger btn-icon icon-left mt-3"
+                :disabled="detail.pembayaran === 'selesai' || detail.ambil !== null"
               >
-                <i class="fas fa-trash-alt"></i> Batalkan Cucian
+                <i class="fas fa-trash-alt mr-1"></i> Batalkan Cucian
               </button>
             </div>
           </div>

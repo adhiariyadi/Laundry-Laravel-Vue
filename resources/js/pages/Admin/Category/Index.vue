@@ -84,14 +84,18 @@
                     <td>
                       <button
                         type="button"
-                        class="btn btn-warning"
+                        class="btn btn-warning btn-sm"
                         @click="editCategory(category.id)"
-                      >Edit</button>
+                      >
+                        <i class="fas fa-edit mr-1"></i> Edit
+                      </button>
                       <button
                         type="button"
+                        class="btn btn-danger btn-sm"
                         @click="deleteCategory(category.id)"
-                        class="btn btn-danger"
-                      >Hapus</button>
+                      >
+                        <i class="fas fa-trash-alt mr-1"></i> Hapus
+                      </button>
                     </td>
                   </tr>
                 </tbody>
