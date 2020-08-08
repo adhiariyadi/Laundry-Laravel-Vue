@@ -6,6 +6,9 @@ Web Laundry yang dibuat oleh <a href="https://github.com/adhiariyadi"> Adhi Ariy
 
 ## Fitur apa saja yang tersedia di Laundry?
 
+-   Category & CRUD
+-   Member & CRUD
+-   Promo
 -   Dalam Proses Pembuatan
 
 ## Release Date
