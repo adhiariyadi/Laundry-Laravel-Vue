@@ -57,6 +57,12 @@
               </router-link>
             </li>
             <li v-if="$auth.check('Admin')">
+              <router-link to="/kas" class="waves-effect">
+                <i class="dripicons-home"></i>
+                <span>Laporan Kas</span>
+              </router-link>
+            </li>
+            <li v-if="$auth.check('Admin')">
               <router-link to="/setting" class="waves-effect">
                 <i class="dripicons-home"></i>
                 <span>Setting</span>
@@ -77,11 +83,7 @@
         <Topbar v-if="$route.meta.pageType != 'auth'"></Topbar>
         <!-- Top Bar End -->
         <div
-          :class="
-            $route.meta.pageType == 'auth'
-              ? 'vh-100 page-content-wrapper'
-              : 'page-content-wrapper'
-          "
+          :class="$route.meta.pageType == 'auth' ? 'vh-100 page-content-wrapper' : 'page-content-wrapper'"
         >
           <transition name="slide-fade">
             <router-view></router-view>

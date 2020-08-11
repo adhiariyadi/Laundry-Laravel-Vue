@@ -45,7 +45,7 @@ class RoomController extends Controller
         $request->validate([
             'antrian' => 'required',
             'category' => 'required',
-            'qty' => 'required',
+            'qty' => 'required'
         ]);
 
         $category = Category::find($request->category);
@@ -59,7 +59,7 @@ class RoomController extends Controller
         ]);
 
         Antrian::find($request->antrian)->update(['status' => "cuci"]);
-        $room = Room::findorfail($request->antrian);
+        $room = Room::where('antrian_id', $request->antrian)->first();
         $room->update([
             'status' => "cuci",
             'total' => $room->total + ($category->harga * $request->qty)
@@ -123,7 +123,8 @@ class RoomController extends Controller
         ]);
 
         Antrian::find($request->antrian)->update(['selesai' => date('Y-m-d H:i:s'), 'status' => "selesai"]);
-        Room::find($request->antrian)->update(['status' => "selesai"]);
+        $room = Room::where('antrian_id', $request->antrian)->first();
+        $room->update(['status' => "selesai"]);
 
         return response(['success' => true], 200);
     }

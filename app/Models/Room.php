@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Room extends Model
 {
     protected $fillable = [
-        'antrian_id', 'total', 'pembayaran', 'operator', 'status'
+        'antrian_id', 'total', 'saldo', 'operator', 'status'
     ];
 
     public function antrian()

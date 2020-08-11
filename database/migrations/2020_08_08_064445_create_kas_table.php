@@ -19,6 +19,7 @@ class CreateKasTable extends Migration
             $table->string('description');
             $table->enum('ket', ['Masuk', 'Keluar']);
             $table->integer('jumlah');
+            $table->integer('saldo');
             $table->timestamps();
         });
     }
