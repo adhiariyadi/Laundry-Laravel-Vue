@@ -42,13 +42,13 @@
                     <td>{{ data.description }}</td>
                     <td>{{ data.ket }}</td>
                     <td>Rp. {{ formatPrice(data.jumlah) }}</td>
-                    <td>Rp. {{ formatPrice(setting.value + data.saldo) }}</td>
+                    <td>Rp. {{ formatPrice(parseInt(setting.value) + data.saldo) }}</td>
                   </tr>
                   <tr>
                     <td></td>
                     <td>{{ setting.created_at }}</td>
                     <td>{{ setting.description }}</td>
-                    <td>{{ setting.name }}</td>
+                    <td class="text-capitalize">{{ setting.name }}</td>
                     <td>Rp. {{ formatPrice(setting.value) }}</td>
                     <td>Rp. {{ formatPrice(setting.value) }}</td>
                   </tr>

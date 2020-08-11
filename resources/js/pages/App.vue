@@ -57,6 +57,12 @@
               </router-link>
             </li>
             <li v-if="$auth.check('Admin')">
+              <router-link to="/pengeluaran" class="waves-effect">
+                <i class="dripicons-home"></i>
+                <span>Pengeluaran</span>
+              </router-link>
+            </li>
+            <li v-if="$auth.check('Admin')">
               <router-link to="/kas" class="waves-effect">
                 <i class="dripicons-home"></i>
                 <span>Laporan Kas</span>

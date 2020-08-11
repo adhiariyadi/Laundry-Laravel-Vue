@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Kas;
-use App\Models\Promo;
-use App\Models\Antrian;
-use App\Models\Pembayaran;
+use App\Models\Pengeluaran;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\PengeluaranResource;
 
-class PembayaranController extends Controller
+class PengeluaranController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +18,7 @@ class PembayaranController extends Controller
      */
     public function index()
     {
-        //
+        return new PengeluaranResource(Pengeluaran::orderBy('id', 'desc')->paginate(10));
     }
 
     /**
@@ -41,45 +40,31 @@ class PembayaranController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'antrian' => 'required',
-            'kode' => 'required',
+            'description' => 'required',
+            'jumlah' => 'required',
         ]);
 
-        $antrian = Antrian::with(['room', 'member.level', 'cucian.category'])->find($request->antrian);
-        $promo = Promo::where('kode', strtoupper($request->promo))->first();
+        $huruf = "QWERTYUIOPLKJHGFDSAZXCVBNM";
+        $kode  = substr(str_shuffle($huruf), 0, 2) . substr(rand(0, 9), 0, 1) . substr(str_shuffle($huruf), 0, 1);
 
-        if ($promo) {
-            $discount = ($antrian->room->total * $antrian->member->level->discount / 100) + (($antrian->room->total - ($antrian->room->total * $antrian->member->level->discount / 100)) * $promo->discount / 100);
-        } else {
-            $discount = ($antrian->room->total * $antrian->member->level->discount / 100);
-        }
-
-        Pembayaran::create([
-            'invoice' => "INV-$antrian->date-$request->kode",
-            'antrian_id' => $antrian->id,
-            'jumlah_cuci' => $antrian->cucian->count(),
-            'harga' => $antrian->room->total,
-            'discount' => $discount,
-            'total' => $antrian->room->total - $discount,
-            'bayar' => $request->bayar,
-            'kembali' => $request->bayar - ($antrian->room->total - $discount),
-            'payment_method' => "Uang Cash",
+        Pengeluaran::create([
+            'invoice' => "INV-" . date("Y-m-d") . "-" . $kode,
+            'description' => $request->description,
+            'jumlah' => $request->jumlah,
             'operator' => Auth::user()->id,
         ]);
-
-        $antrian->update(['pembayaran' => "selesai"]);
 
         $kas = Kas::get()->sum('jumlah');
 
         Kas::create([
-            'invoice' => "INV-$antrian->date-$request->kode",
-            'description' => "Pembayaran Cucian",
-            'ket' => "Masuk",
-            'jumlah' => $antrian->room->total - $discount,
-            'saldo' => $kas + ($antrian->room->total - $discount)
+            'invoice' => "INV-" . date("Y-m-d") . "-" . $kode,
+            'description' => "Pengeluaran untuk" . $request->description,
+            'ket' => "Keluar",
+            'jumlah' => $request->jumlah,
+            'saldo' => $kas - ($request->jumlah)
         ]);
 
-        return response(['success' => true, 'antrian' => $antrian], 200);
+        return response(['success' => true], 200);
     }
 
     /**

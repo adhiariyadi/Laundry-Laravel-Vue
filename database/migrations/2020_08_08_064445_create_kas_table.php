@@ -16,7 +16,7 @@ class CreateKasTable extends Migration
         Schema::create('kas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('invoice');
-            $table->string('description');
+            $table->text('description');
             $table->enum('ket', ['Masuk', 'Keluar']);
             $table->integer('jumlah');
             $table->integer('saldo');

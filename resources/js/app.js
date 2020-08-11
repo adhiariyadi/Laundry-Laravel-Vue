@@ -32,6 +32,7 @@ import BayarRoom from "./pages/Admin/Room/Bayar.vue";
 import Category from "./pages/Admin/Category/Index.vue";
 import Member from "./pages/Admin/Member/Index.vue";
 import Promo from "./pages/Admin/Promo/Index.vue";
+import Pengeluaran from "./pages/Admin/Pengeluaran/Index.vue";
 import Kas from "./pages/Admin/Laporan/Kas.vue";
 import Setting from "./pages/Admin/Setting/Index.vue";
 
@@ -60,6 +61,7 @@ const router = new VueRouter({
         { path: "/category", component: Category, meta: { auth: true } },
         { path: "/member", component: Member, meta: { auth: true } },
         { path: "/promo", component: Promo, meta: { auth: true } },
+        { path: "/pengeluaran", component: Pengeluaran, meta: { auth: true } },
         { path: "/kas", component: Kas, meta: { auth: true } },
         { path: "/setting", component: Setting, meta: { auth: true } },
         {

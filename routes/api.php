@@ -33,6 +33,7 @@ Route::prefix('v1')->group(function () {
             Route::resource('/category', 'API\CategoryController');
             Route::resource('/member', 'API\MemberController');
             Route::resource('/promo', 'API\PromoController');
+            Route::resource('/pengeluaran', 'API\PengeluaranController');
             Route::get('/kas', 'API\LaporanController@kas');
             Route::resource('/setting', 'API\SettingController');
         });
