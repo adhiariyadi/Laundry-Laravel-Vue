@@ -299,7 +299,7 @@
                 type="button"
                 @click="bayar(detail.id)"
                 class="btn btn-success btn-icon icon-left mr-2"
-                :disabled="cucians == 0 || detail.pembayaran == 'selesai'"
+                :disabled="cucian == 0 || detail.pembayaran == 'selesai'"
               >
                 <i class="fas fa-receipt mr-1"></i> Bayar
               </button>
@@ -409,8 +409,8 @@ export default {
     },
     detailAntrian(id) {
       axios.get(`/api/v1/antrian/${id}`).then((result) => {
-        this.detail = result.data.antrian;
-        this.cucian = result.data.cucian;
+        this.detail = result.data;
+        this.cucian = result.data.cucian.length;
         $("#modalDetail").modal("show");
       });
     },

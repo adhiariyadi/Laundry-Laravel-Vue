@@ -10,5 +10,10 @@ class Category extends Model
         'name', 'description', 'satuan', 'harga'
     ];
 
+    public function cucian()
+    {
+        return $this->hasMany('App\Models\Cucian');
+    }
+
     protected $table = 'category';
 }

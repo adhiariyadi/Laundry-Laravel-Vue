@@ -77,7 +77,7 @@ class AntrianController extends Controller
      */
     public function show($id)
     {
-        return response(['antrian' => Antrian::with(['member', 'operator'])->findOrFail($id), 'cucian' => Cucian::where('antrian_id', $id)->count()]);
+        return response(Antrian::with(['member', 'cucian', 'operator'])->findOrFail($id));
     }
 
     /**
@@ -111,8 +111,9 @@ class AntrianController extends Controller
      */
     public function destroy($id)
     {
-        Antrian::find($id)->delete();
+        Cucian::where('antrian_id', $id)->delete();
         Room::where('antrian_id', $id)->delete();
+        Antrian::find($id)->delete();
         return response(['success' => true], 200);
     }
 }

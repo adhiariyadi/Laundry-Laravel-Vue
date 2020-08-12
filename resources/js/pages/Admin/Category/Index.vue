@@ -80,7 +80,7 @@
                       {{ category.satuan }} - Rp.
                       {{ formatPrice(category.harga) }}
                     </td>
-                    <td>0</td>
+                    <td>{{ category.cucian.length }}</td>
                     <td>
                       <button
                         type="button"

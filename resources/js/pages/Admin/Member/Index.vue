@@ -82,7 +82,7 @@
                       : member.level.name
                       }}
                     </td>
-                    <td>0</td>
+                    <td>{{ member.antrian.length }}</td>
                     <td>{{ member.point }}</td>
                     <td>
                       <button

@@ -16,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        return new CategoryResource(Category::where('name', 'LIKE', "%$request->search%")->orderBy('id', 'desc')->paginate(10));
+        return new CategoryResource(Category::with(['cucian'])->where('name', 'LIKE', "%$request->search%")->orderBy('id', 'desc')->paginate(10));
     }
 
     /**

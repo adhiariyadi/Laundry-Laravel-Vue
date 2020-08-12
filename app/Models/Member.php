@@ -15,5 +15,10 @@ class Member extends Model
         return $this->belongsTo('App\Models\LevelMember', 'level_id');
     }
 
+    public function antrian()
+    {
+        return $this->hasMany('App\Models\Antrian');
+    }
+
     protected $table = 'member';
 }

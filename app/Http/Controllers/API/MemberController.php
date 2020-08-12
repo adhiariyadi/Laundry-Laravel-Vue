@@ -17,7 +17,7 @@ class MemberController extends Controller
      */
     public function index(Request $request)
     {
-        return new MemberResource(['member' => Member::with(['level'])->where('name', 'LIKE', "%$request->search%")->orderBy('id', 'desc')->paginate(10), 'level' => LevelMember::all()]);
+        return new MemberResource(['member' => Member::with(['level', 'antrian'])->where('name', 'LIKE', "%$request->search%")->orderBy('id', 'desc')->paginate(10), 'level' => LevelMember::all()]);
     }
 
     /**

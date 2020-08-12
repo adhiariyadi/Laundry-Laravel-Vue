@@ -3505,8 +3505,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       axios.get("/api/v1/antrian/".concat(id)).then(function (result) {
-        _this3.detail = result.data.antrian;
-        _this3.cucian = result.data.cucian;
+        _this3.detail = result.data;
+        _this3.cucian = result.data.cucian.length;
         $("#modalDetail").modal("show");
       });
     },
@@ -62180,7 +62180,7 @@ var render = function() {
                           attrs: {
                             type: "button",
                             disabled:
-                              _vm.cucians == 0 ||
+                              _vm.cucian == 0 ||
                               _vm.detail.pembayaran == "selesai"
                           },
                           on: {
@@ -62499,7 +62499,7 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _c("td", [_vm._v("0")]),
+                        _c("td", [_vm._v(_vm._s(category.cucian.length))]),
                         _vm._v(" "),
                         _c("td", [
                           _c(
@@ -63683,7 +63683,7 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _c("td", [_vm._v("0")]),
+                        _c("td", [_vm._v(_vm._s(member.antrian.length))]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(member.point))]),
                         _vm._v(" "),
