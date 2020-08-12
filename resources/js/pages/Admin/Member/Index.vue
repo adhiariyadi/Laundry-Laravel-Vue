@@ -300,11 +300,11 @@ export default {
     };
   },
   methods: {
-    displayData(page = 1, search = "") {
+    displayData(page, search) {
       this.$http({
         url: "/api/v1/member",
         method: "GET",
-        params: { search: this.search, page: this.page },
+        params: { search: search, page: page },
       }).then((result) => {
         this.members = result.data.data.member.data;
         this.levels = result.data.data.level;
@@ -406,7 +406,7 @@ export default {
     nextPage() {
       let nextPage = this.current_page + 1;
       window.history.replaceState(null, null, "?page=" + nextPage);
-      this.displayData(this.current_page + 1, this.search);
+      this.displayData(thinextPage, this.search);
     },
     prevPage() {
       let prevPage = this.current_page - 1;

@@ -63,6 +63,12 @@
               </router-link>
             </li>
             <li v-if="$auth.check('Admin')">
+              <router-link to="/laporan" class="waves-effect">
+                <i class="dripicons-home"></i>
+                <span>Laporan Transaksi</span>
+              </router-link>
+            </li>
+            <li v-if="$auth.check('Admin')">
               <router-link to="/kas" class="waves-effect">
                 <i class="dripicons-home"></i>
                 <span>Laporan Kas</span>

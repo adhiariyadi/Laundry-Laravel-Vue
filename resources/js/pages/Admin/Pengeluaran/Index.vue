@@ -156,7 +156,6 @@ export default {
       addLoading: false,
       first_page: 1,
       page: 1,
-      search: "",
       last_page: null,
       current_page: this.$route.query.page || 1,
       next_page_url: "",
@@ -164,11 +163,11 @@ export default {
     };
   },
   methods: {
-    displayData(page = 1, search = "") {
+    displayData(page) {
       this.$http({
         url: "/api/v1/pengeluaran",
         method: "GET",
-        params: { search: this.search, page: this.page },
+        params: { page: page },
       }).then((result) => {
         this.pengeluarans = result.data.data;
         this.last_page = result.data.meta.last_page;
@@ -212,7 +211,7 @@ export default {
     nextPage() {
       let nextPage = this.current_page + 1;
       window.history.replaceState(null, null, "?page=" + nextPage);
-      this.displayData(this.current_page + 1, this.search);
+      this.displayData(thinextPage, this.search);
     },
     prevPage() {
       let prevPage = this.current_page - 1;

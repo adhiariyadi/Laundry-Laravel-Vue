@@ -58,7 +58,7 @@ class PengeluaranController extends Controller
 
         Kas::create([
             'invoice' => "INV-" . date("Y-m-d") . "-" . $kode,
-            'description' => "Pengeluaran untuk" . $request->description,
+            'description' => "Pengeluaran untuk " . $request->description,
             'ket' => "Keluar",
             'jumlah' => $request->jumlah,
             'saldo' => $kas - ($request->jumlah)

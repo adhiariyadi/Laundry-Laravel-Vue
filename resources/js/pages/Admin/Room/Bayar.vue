@@ -237,7 +237,6 @@ export default {
   mounted() {
     this.id = this.$route.params.id;
     this.displayData(this.id);
-    $("#modalDetail").modal("show");
     $(".modal-backdrop.fade").removed(".show");
   },
   data() {

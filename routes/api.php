@@ -34,6 +34,10 @@ Route::prefix('v1')->group(function () {
             Route::resource('/member', 'API\MemberController');
             Route::resource('/promo', 'API\PromoController');
             Route::resource('/pengeluaran', 'API\PengeluaranController');
+            Route::get('/tahun', 'API\LaporanController@tahun');
+            Route::get('/bulan', 'API\LaporanController@bulan');
+            Route::get('/tanggal', 'API\LaporanController@tanggal');
+            Route::get('/detail', 'API\LaporanController@detail');
             Route::get('/kas', 'API\LaporanController@kas');
             Route::resource('/setting', 'API\SettingController');
         });

@@ -5,7 +5,7 @@
         <div class="page-title-box">
           <div class="row align-items-center">
             <div class="col-md-8">
-              <h4 class="page-title m-0">Laundry Room</h4>
+              <h4 class="page-title m-0">Laporan Transaksi</h4>
             </div>
             <!-- end col -->
           </div>
@@ -22,52 +22,36 @@
           <div class="card-body">
             <div class="row mb-3">
               <div class="col-8">
-                <h4 class="mt-0 header-title">List All Antrian in Laundry Room</h4>
+                <h4
+                  class="mt-0 header-title"
+                >List All Laporan Transaksi (Tahun {{ tahun }}, Bulan {{ days[0].bulan }})</h4>
               </div>
             </div>
             <div class="table-responsive">
-              <table class="table table-hover table-lg" id="room-table">
+              <table class="table table-hover table-lg" id="promo-table">
                 <thead>
                   <tr>
-                    <th>#</th>
-                    <th>Pelanggan</th>
-                    <th>Waktu Masuk</th>
-                    <th>Total Item</th>
-                    <th>Total Harga</th>
-                    <th>Status</th>
+                    <th>Tanggal</th>
+                    <th>Transaksi Masuk</th>
+                    <th>Transaksi Keluar</th>
+                    <th>Pendapatan</th>
+                    <th>Pengeluaran</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(room, index) in rooms" v-bind:key="room.id">
-                    <td>{{ index + 1 }}</td>
+                  <tr v-for="day in days" v-bind:key="day.id">
+                    <td>{{ day.value }} {{ day.bulan }} {{ tahun }}</td>
+                    <td>{{ day.masuk }}</td>
+                    <td>{{ day.keluar }}</td>
+                    <td>Rp. {{ formatPrice(day.pendapatan) }}</td>
+                    <td>Rp. {{ formatPrice(day.pengeluaran) }}</td>
                     <td>
-                      <span class="text-capitalize">
-                        {{
-                        room.antrian.member === undefined
-                        ? "Deleted"
-                        : room.antrian.member.name
-                        }}
-                      </span>
-                    </td>
-                    <td>{{ room.created_at }}</td>
-                    <td>{{ room.antrian.cucian.length }}</td>
-                    <td>Rp. {{ formatPrice(room.total) }}</td>
-                    <td>
-                      <h6>
-                        <span class="badge badge-warning p-2" v-if="room.status === 'ready'">
-                          <i class="fas fa-circle mr-1"></i>
-                          Ready
-                        </span>
-                        <span class="badge badge-success p-2" v-else>
-                          <i class="fas fa-circle mr-1"></i>
-                          sedang Cuci
-                        </span>
-                      </h6>
-                    </td>
-                    <td>
-                      <router-link :to="{path: `/room/${room.antrian_id}`}" class="btn btn-info">
-                        <i class="fas fa-info-circle mr-1"></i>
+                      <router-link
+                        :to="{path: `/laporan/${tahun}/${bulan}/${day.value}`}"
+                        class="btn btn-info btn-sm btn-icon icon-left"
+                      >
+                        <i class="fas fa-search-plus mr-1"></i>
                         Detail
                       </router-link>
                     </td>
@@ -110,14 +94,15 @@
 <script>
 export default {
   mounted() {
+    this.tahun = this.$route.params.tahun;
+    this.bulan = this.$route.params.bulan;
     this.displayData(this.page);
   },
   data() {
     return {
-      member: "",
-      rooms: [],
-      errors: [],
-      addLoading: false,
+      tahun: "",
+      bulan: "",
+      days: [],
       first_page: 1,
       page: 1,
       last_page: null,
@@ -129,11 +114,11 @@ export default {
   methods: {
     displayData(page) {
       this.$http({
-        url: "/api/v1/room",
+        url: "/api/v1/tanggal",
         method: "GET",
-        params: { page: page },
+        params: { page: page, tahun: this.tahun, bulan: this.bulan },
       }).then((result) => {
-        this.rooms = result.data.data;
+        this.days = result.data.data;
         this.last_page = result.data.meta.last_page;
         this.current_page = result.data.meta.current_page;
         this.next_page_url = result.data.links.next;

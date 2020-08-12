@@ -33,6 +33,10 @@ import Category from "./pages/Admin/Category/Index.vue";
 import Member from "./pages/Admin/Member/Index.vue";
 import Promo from "./pages/Admin/Promo/Index.vue";
 import Pengeluaran from "./pages/Admin/Pengeluaran/Index.vue";
+import Tahun from "./pages/Admin/Laporan/Tahun.vue";
+import Bulan from "./pages/Admin/Laporan/Bulan.vue";
+import Tanggal from "./pages/Admin/Laporan/Tanggal.vue";
+import Detail from "./pages/Admin/Laporan/Detail.vue";
 import Kas from "./pages/Admin/Laporan/Kas.vue";
 import Setting from "./pages/Admin/Setting/Index.vue";
 
@@ -62,6 +66,22 @@ const router = new VueRouter({
         { path: "/member", component: Member, meta: { auth: true } },
         { path: "/promo", component: Promo, meta: { auth: true } },
         { path: "/pengeluaran", component: Pengeluaran, meta: { auth: true } },
+        { path: "/laporan", component: Tahun, meta: { auth: true } },
+        {
+            path: "/laporan/:tahun",
+            component: Bulan,
+            meta: { auth: true }
+        },
+        {
+            path: "/laporan/:tahun/:bulan",
+            component: Tanggal,
+            meta: { auth: true }
+        },
+        {
+            path: "/laporan/:tahun/:bulan/:tanggal",
+            component: Detail,
+            meta: { auth: true }
+        },
         { path: "/kas", component: Kas, meta: { auth: true } },
         { path: "/setting", component: Setting, meta: { auth: true } },
         {

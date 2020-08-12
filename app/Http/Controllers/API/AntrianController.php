@@ -21,11 +21,6 @@ class AntrianController extends Controller
      */
     public function index()
     {
-        // $antrian = Antrian::with(['member', 'room', 'operator'])->orderBy('id', 'desc')
-        // ->whereYear('date', date('Y'))->whereMonth('date', date('m'))->whereDay('date', date('d'))->paginate(10);
-        // ->groupBy(function ($val) {
-        //     return Carbon::parse($val->date)->format('Y');
-        // });
         return new AntrianResource(['antrian' => Antrian::with(['member', 'room', 'operator'])->orderBy('id', 'desc')->where('date', '>=',  date('Y-m-d', strtotime("-1 day", strtotime(date("Y-m-d")))))->paginate(10), 'member' => Member::all()]);
     }
 

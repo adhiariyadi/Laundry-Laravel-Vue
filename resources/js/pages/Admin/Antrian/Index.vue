@@ -367,11 +367,11 @@ export default {
     };
   },
   methods: {
-    displayData(page = 1) {
+    displayData(page) {
       this.$http({
         url: "/api/v1/antrian",
         method: "GET",
-        params: { page: this.page },
+        params: { page: page },
       }).then((result) => {
         this.antrians = result.data.data.antrian.data;
         this.members = result.data.data.member;
@@ -472,7 +472,7 @@ export default {
     nextPage() {
       let nextPage = this.current_page + 1;
       window.history.replaceState(null, null, "?page=" + nextPage);
-      this.displayData(this.current_page + 1, this.search);
+      this.displayData(thinextPage, this.search);
     },
     prevPage() {
       let prevPage = this.current_page - 1;

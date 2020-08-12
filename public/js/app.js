@@ -3450,15 +3450,14 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    displayData: function displayData() {
+    displayData: function displayData(page) {
       var _this = this;
 
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       this.$http({
         url: "/api/v1/antrian",
         method: "GET",
         params: {
-          page: this.page
+          page: page
         }
       }).then(function (result) {
         _this.antrians = result.data.data.antrian.data;
@@ -3569,7 +3568,7 @@ __webpack_require__.r(__webpack_exports__);
     nextPage: function nextPage() {
       var nextPage = this.current_page + 1;
       window.history.replaceState(null, null, "?page=" + nextPage);
-      this.displayData(this.current_page + 1, this.search);
+      this.displayData(thinextPage, this.search);
     },
     prevPage: function prevPage() {
       var prevPage = this.current_page - 1;
@@ -3884,17 +3883,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }, _defineProperty(_ref, "search", ""), _defineProperty(_ref, "last_page", null), _defineProperty(_ref, "current_page", this.$route.query.page || 1), _defineProperty(_ref, "next_page_url", ""), _defineProperty(_ref, "prev_page_url", ""), _ref;
   },
   methods: {
-    displayData: function displayData() {
+    displayData: function displayData(page, search) {
       var _this = this;
 
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
       this.$http({
         url: "/api/v1/category",
         method: "GET",
         params: {
-          search: this.search,
-          page: this.page
+          search: search,
+          page: page
         }
       }).then(function (result) {
         _this.categories = result.data.data;
@@ -4005,7 +4002,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     nextPage: function nextPage() {
       var nextPage = this.current_page + 1;
       window.history.replaceState(null, null, "?page=" + nextPage);
-      this.displayData(this.current_page + 1, this.search);
+      this.displayData(thinextPage, this.search);
     },
     prevPage: function prevPage() {
       var prevPage = this.current_page - 1;
@@ -4019,6 +4016,322 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     formatPrice: function formatPrice(value) {
       var val = (value / 1).toFixed(0).replace(".", ",");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/Laporan/Bulan.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Admin/Laporan/Bulan.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    this.tahun = this.$route.params.tahun;
+    this.displayData(this.page);
+  },
+  data: function data() {
+    return {
+      tahun: "",
+      months: [],
+      first_page: 1,
+      page: 1,
+      last_page: null,
+      current_page: this.$route.query.page || 1,
+      next_page_url: "",
+      prev_page_url: ""
+    };
+  },
+  methods: {
+    displayData: function displayData(page) {
+      var _this = this;
+
+      this.$http({
+        url: "/api/v1/bulan",
+        method: "GET",
+        params: {
+          page: page,
+          tahun: this.tahun
+        }
+      }).then(function (result) {
+        _this.months = result.data.data;
+        _this.last_page = result.data.meta.last_page;
+        _this.current_page = result.data.meta.current_page;
+        _this.next_page_url = result.data.links.next;
+        _this.prev_page_url = result.data.links.prev;
+      });
+    },
+    formatPrice: function formatPrice(value) {
+      var val = (value / 1).toFixed(0).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
+    nextPage: function nextPage() {
+      var nextPage = this.current_page + 1;
+      window.history.replaceState(null, null, "?page=" + nextPage);
+      this.displayData(thinextPage, this.search);
+    },
+    prevPage: function prevPage() {
+      var prevPage = this.current_page - 1;
+      window.history.replaceState(null, null, "?page=" + prevPage);
+      this.displayData(prevPage, this.search);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/Laporan/Detail.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Admin/Laporan/Detail.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    this.tahun = this.$route.params.tahun;
+    this.bulan = this.$route.params.bulan;
+    this.tanggal = this.$route.params.tanggal;
+    this.displayData(this.page);
+  },
+  data: function data() {
+    return {
+      tahun: "",
+      bulan: "",
+      tanggal: "",
+      details: [],
+      first_page: 1,
+      page: 1,
+      last_page: null,
+      current_page: this.$route.query.page || 1,
+      next_page_url: "",
+      prev_page_url: ""
+    };
+  },
+  methods: {
+    displayData: function displayData(page) {
+      var _this = this;
+
+      this.$http({
+        url: "/api/v1/detail",
+        method: "GET",
+        params: {
+          page: page,
+          tahun: this.tahun,
+          bulan: this.bulan,
+          tanggal: this.tanggal
+        }
+      }).then(function (result) {
+        _this.details = result.data.data;
+        _this.last_page = result.data.meta.last_page;
+        _this.current_page = result.data.meta.current_page;
+        _this.next_page_url = result.data.links.next;
+        _this.prev_page_url = result.data.links.prev;
+      });
+    },
+    formatPrice: function formatPrice(value) {
+      var val = (value / 1).toFixed(0).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
+    nextPage: function nextPage() {
+      var nextPage = this.current_page + 1;
+      window.history.replaceState(null, null, "?page=" + nextPage);
+      this.displayData(thinextPage, this.search);
+    },
+    prevPage: function prevPage() {
+      var prevPage = this.current_page - 1;
+      window.history.replaceState(null, null, "?page=" + prevPage);
+      this.displayData(prevPage, this.search);
     }
   }
 });
@@ -4122,6 +4435,318 @@ __webpack_require__.r(__webpack_exports__);
     formatPrice: function formatPrice(value) {
       var val = (value / 1).toFixed(0).replace(".", ",");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/Laporan/Tahun.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Admin/Laporan/Tahun.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    this.displayData(this.page);
+  },
+  data: function data() {
+    return {
+      years: [],
+      first_page: 1,
+      page: 1,
+      last_page: null,
+      current_page: this.$route.query.page || 1,
+      next_page_url: "",
+      prev_page_url: ""
+    };
+  },
+  methods: {
+    displayData: function displayData(page) {
+      var _this = this;
+
+      this.$http({
+        url: "/api/v1/tahun",
+        method: "GET",
+        params: {
+          page: page
+        }
+      }).then(function (result) {
+        _this.years = result.data.data;
+        _this.last_page = result.data.meta.last_page;
+        _this.current_page = result.data.meta.current_page;
+        _this.next_page_url = result.data.links.next;
+        _this.prev_page_url = result.data.links.prev;
+      });
+    },
+    formatPrice: function formatPrice(value) {
+      var val = (value / 1).toFixed(0).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
+    nextPage: function nextPage() {
+      var nextPage = this.current_page + 1;
+      window.history.replaceState(null, null, "?page=" + nextPage);
+      this.displayData(thinextPage, this.search);
+    },
+    prevPage: function prevPage() {
+      var prevPage = this.current_page - 1;
+      window.history.replaceState(null, null, "?page=" + prevPage);
+      this.displayData(prevPage, this.search);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/Laporan/Tanggal.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Admin/Laporan/Tanggal.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    this.tahun = this.$route.params.tahun;
+    this.bulan = this.$route.params.bulan;
+    this.displayData(this.page);
+  },
+  data: function data() {
+    return {
+      tahun: "",
+      bulan: "",
+      days: [],
+      first_page: 1,
+      page: 1,
+      last_page: null,
+      current_page: this.$route.query.page || 1,
+      next_page_url: "",
+      prev_page_url: ""
+    };
+  },
+  methods: {
+    displayData: function displayData(page) {
+      var _this = this;
+
+      this.$http({
+        url: "/api/v1/tanggal",
+        method: "GET",
+        params: {
+          page: page,
+          tahun: this.tahun,
+          bulan: this.bulan
+        }
+      }).then(function (result) {
+        _this.days = result.data.data;
+        _this.last_page = result.data.meta.last_page;
+        _this.current_page = result.data.meta.current_page;
+        _this.next_page_url = result.data.links.next;
+        _this.prev_page_url = result.data.links.prev;
+      });
+    },
+    formatPrice: function formatPrice(value) {
+      var val = (value / 1).toFixed(0).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
+    nextPage: function nextPage() {
+      var nextPage = this.current_page + 1;
+      window.history.replaceState(null, null, "?page=" + nextPage);
+      this.displayData(thinextPage, this.search);
+    },
+    prevPage: function prevPage() {
+      var prevPage = this.current_page - 1;
+      window.history.replaceState(null, null, "?page=" + prevPage);
+      this.displayData(prevPage, this.search);
     }
   }
 });
@@ -4437,17 +5062,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }, _defineProperty(_ref, "search", ""), _defineProperty(_ref, "last_page", null), _defineProperty(_ref, "current_page", this.$route.query.page || 1), _defineProperty(_ref, "next_page_url", ""), _defineProperty(_ref, "prev_page_url", ""), _ref;
   },
   methods: {
-    displayData: function displayData() {
+    displayData: function displayData(page, search) {
       var _this = this;
 
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
       this.$http({
         url: "/api/v1/member",
         method: "GET",
         params: {
-          search: this.search,
-          page: this.page
+          search: search,
+          page: page
         }
       }).then(function (result) {
         _this.members = result.data.data.member.data;
@@ -4559,7 +5182,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     nextPage: function nextPage() {
       var nextPage = this.current_page + 1;
       window.history.replaceState(null, null, "?page=" + nextPage);
-      this.displayData(this.current_page + 1, this.search);
+      this.displayData(thinextPage, this.search);
     },
     prevPage: function prevPage() {
       var prevPage = this.current_page - 1;
@@ -4741,7 +5364,6 @@ __webpack_require__.r(__webpack_exports__);
       addLoading: false,
       first_page: 1,
       page: 1,
-      search: "",
       last_page: null,
       current_page: this.$route.query.page || 1,
       next_page_url: "",
@@ -4749,17 +5371,14 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    displayData: function displayData() {
+    displayData: function displayData(page) {
       var _this = this;
 
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
       this.$http({
         url: "/api/v1/pengeluaran",
         method: "GET",
         params: {
-          search: this.search,
-          page: this.page
+          page: page
         }
       }).then(function (result) {
         _this.pengeluarans = result.data.data;
@@ -4810,7 +5429,7 @@ __webpack_require__.r(__webpack_exports__);
     nextPage: function nextPage() {
       var nextPage = this.current_page + 1;
       window.history.replaceState(null, null, "?page=" + nextPage);
-      this.displayData(this.current_page + 1, this.search);
+      this.displayData(thinextPage, this.search);
     },
     prevPage: function prevPage() {
       var prevPage = this.current_page - 1;
@@ -5031,17 +5650,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }, _defineProperty(_ref, "search", ""), _defineProperty(_ref, "last_page", null), _defineProperty(_ref, "current_page", this.$route.query.page || 1), _defineProperty(_ref, "next_page_url", ""), _defineProperty(_ref, "prev_page_url", ""), _ref;
   },
   methods: {
-    displayData: function displayData() {
+    displayData: function displayData(page, search) {
       var _this = this;
 
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
       this.$http({
         url: "/api/v1/promo",
         method: "GET",
         params: {
-          search: this.search,
-          page: this.page
+          search: search,
+          page: page
         }
       }).then(function (result) {
         _this.promos = result.data.data;
@@ -5103,7 +5720,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     nextPage: function nextPage() {
       var nextPage = this.current_page + 1;
       window.history.replaceState(null, null, "?page=" + nextPage);
-      this.displayData(this.current_page + 1, this.search);
+      this.displayData(thinextPage, this.search);
     },
     prevPage: function prevPage() {
       var prevPage = this.current_page - 1;
@@ -5366,7 +5983,6 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.id = this.$route.params.id;
     this.displayData(this.id);
-    $("#modalDetail").modal("show");
     $(".modal-backdrop.fade").removed(".show");
   },
   data: function data() {
@@ -5697,7 +6313,6 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.id = this.$route.params.id;
     this.displayData(this.id);
-    $("#modalDetail").modal("show");
     $(".modal-backdrop.fade").removed(".show");
   },
   data: function data() {
@@ -5930,15 +6545,14 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    displayData: function displayData() {
+    displayData: function displayData(page) {
       var _this = this;
 
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       this.$http({
         url: "/api/v1/room",
         method: "GET",
         params: {
-          page: this.page
+          page: page
         }
       }).then(function (result) {
         _this.rooms = result.data.data;
@@ -5955,16 +6569,12 @@ __webpack_require__.r(__webpack_exports__);
     nextPage: function nextPage() {
       var nextPage = this.current_page + 1;
       window.history.replaceState(null, null, "?page=" + nextPage);
-      this.displayData(this.current_page + 1, this.search);
+      this.displayData(thinextPage, this.search);
     },
     prevPage: function prevPage() {
       var prevPage = this.current_page - 1;
       window.history.replaceState(null, null, "?page=" + prevPage);
       this.displayData(prevPage, this.search);
-    },
-    searchData: function searchData() {
-      this.displayData(1, this.search);
-      window.history.replaceState(null, null, "?page=1");
     }
   }
 });
@@ -6174,20 +6784,6 @@ __webpack_require__.r(__webpack_exports__);
           _this3.errors = error.response.data.errors;
         }
       });
-    },
-    nextPage: function nextPage() {
-      var nextPage = this.current_page + 1;
-      window.history.replaceState(null, null, "?page=" + nextPage);
-      this.displayData(this.current_page + 1, this.search);
-    },
-    prevPage: function prevPage() {
-      var prevPage = this.current_page - 1;
-      window.history.replaceState(null, null, "?page=" + prevPage);
-      this.displayData(prevPage, this.search);
-    },
-    searchData: function searchData() {
-      this.displayData(1, this.search);
-      window.history.replaceState(null, null, "?page=1");
     }
   }
 });
@@ -6204,6 +6800,12 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Topbar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../components/Topbar */ "./resources/js/components/Topbar.vue");
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -63445,6 +64047,399 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/Laporan/Bulan.vue?vue&type=template&id=3451ecc9&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Admin/Laporan/Bulan.vue?vue&type=template&id=3451ecc9& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-xl-12" }, [
+        _c("div", { staticClass: "card m-b-30" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "row mb-3" }, [
+              _c("div", { staticClass: "col-8" }, [
+                _c("h4", { staticClass: "mt-0 header-title" }, [
+                  _vm._v(
+                    "List All Laporan Transaksi (Tahun " +
+                      _vm._s(_vm.tahun) +
+                      ")"
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "table-responsive" }, [
+              _c(
+                "table",
+                {
+                  staticClass: "table table-hover table-lg",
+                  attrs: { id: "promo-table" }
+                },
+                [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.months, function(month) {
+                      return _c("tr", { key: month.id }, [
+                        _c("td", [
+                          _vm._v(_vm._s(month.value) + " " + _vm._s(_vm.tahun))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(month.masuk))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(month.keluar))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            "Rp. " + _vm._s(_vm.formatPrice(month.pendapatan))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            "Rp. " + _vm._s(_vm.formatPrice(month.pengeluaran))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          [
+                            _c(
+                              "router-link",
+                              {
+                                staticClass:
+                                  "btn btn-info btn-sm btn-icon icon-left",
+                                attrs: {
+                                  to: {
+                                    path:
+                                      "/laporan/" + _vm.tahun + "/" + month.key
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fas fa-search-plus mr-1"
+                                }),
+                                _vm._v(
+                                  "\n                      Detail\n                    "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ])
+                    }),
+                    0
+                  )
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "nav",
+              {
+                staticClass: "float-right",
+                attrs: { "aria-label": "Page navigation example" }
+              },
+              [
+                _c("ul", { staticClass: "pagination" }, [
+                  _c("li", { staticClass: "page-item" }, [
+                    this.current_page !== this.first_page
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "page-link",
+                            attrs: { href: "#" },
+                            on: { click: _vm.prevPage }
+                          },
+                          [_vm._v("Previous")]
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "page-item" }, [
+                    _c(
+                      "button",
+                      { staticClass: "page-link", attrs: { href: "#" } },
+                      [_vm._v(_vm._s(this.current_page))]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "page-item" }, [
+                    this.current_page !== this.last_page
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "page-link",
+                            attrs: { href: "#" },
+                            on: { click: _vm.nextPage }
+                          },
+                          [_vm._v("Next")]
+                        )
+                      : _vm._e()
+                  ])
+                ])
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-sm-12" }, [
+        _c("div", { staticClass: "page-title-box" }, [
+          _c("div", { staticClass: "row align-items-center" }, [
+            _c("div", { staticClass: "col-md-8" }, [
+              _c("h4", { staticClass: "page-title m-0" }, [
+                _vm._v("Laporan Transaksi")
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Bulan")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Transaksi Masuk")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Transaksi Keluar")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Pendapatan")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Pengeluaran")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Aksi")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/Laporan/Detail.vue?vue&type=template&id=3401c6fe&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Admin/Laporan/Detail.vue?vue&type=template&id=3401c6fe& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-xl-12" }, [
+        _c("div", { staticClass: "card m-b-30" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "row mb-3" }, [
+              _c("div", { staticClass: "col-8" }, [
+                _c("h4", { staticClass: "mt-0 header-title" }, [
+                  _vm._v(
+                    "List All Laporan Transaksi (Tahun " +
+                      _vm._s(_vm.tahun) +
+                      ", Bulan " +
+                      _vm._s(_vm.details[0].bulan) +
+                      ", Tanggal " +
+                      _vm._s(_vm.tanggal) +
+                      ")"
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "table-responsive" }, [
+              _c(
+                "table",
+                {
+                  staticClass: "table table-hover table-lg",
+                  attrs: { id: "promo-table" }
+                },
+                [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.details, function(detail) {
+                      return _c("tr", { key: detail.id }, [
+                        _c("td", [_vm._v(_vm._s(detail.waktu))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(detail.invoice))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(detail.ket))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            "Rp. " + _vm._s(_vm.formatPrice(detail.nominal))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          [
+                            _c(
+                              "router-link",
+                              {
+                                staticClass:
+                                  "btn btn-info btn-sm btn-icon icon-left",
+                                attrs: {
+                                  to: { path: "/transaksi/" + detail.id }
+                                }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fas fa-search-plus mr-1"
+                                }),
+                                _vm._v(
+                                  "\n                      Detail\n                    "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ])
+                    }),
+                    0
+                  )
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "nav",
+              {
+                staticClass: "float-right",
+                attrs: { "aria-label": "Page navigation example" }
+              },
+              [
+                _c("ul", { staticClass: "pagination" }, [
+                  _c("li", { staticClass: "page-item" }, [
+                    this.current_page !== this.first_page
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "page-link",
+                            attrs: { href: "#" },
+                            on: { click: _vm.prevPage }
+                          },
+                          [_vm._v("Previous")]
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "page-item" }, [
+                    _c(
+                      "button",
+                      { staticClass: "page-link", attrs: { href: "#" } },
+                      [_vm._v(_vm._s(this.current_page))]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "page-item" }, [
+                    this.current_page !== this.last_page
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "page-link",
+                            attrs: { href: "#" },
+                            on: { click: _vm.nextPage }
+                          },
+                          [_vm._v("Next")]
+                        )
+                      : _vm._e()
+                  ])
+                ])
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-sm-12" }, [
+        _c("div", { staticClass: "page-title-box" }, [
+          _c("div", { staticClass: "row align-items-center" }, [
+            _c("div", { staticClass: "col-md-8" }, [
+              _c("h4", { staticClass: "page-title m-0" }, [
+                _vm._v("Laporan Transaksi")
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Waktu")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Invoice")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Ket")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Nominal")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Aksi")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/Laporan/Kas.vue?vue&type=template&id=73b8dd80&":
 /*!***************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Admin/Laporan/Kas.vue?vue&type=template&id=73b8dd80& ***!
@@ -63584,6 +64579,418 @@ var staticRenderFns = [
       _c("th", [_vm._v("Total")]),
       _vm._v(" "),
       _c("th", [_vm._v("Saldo")])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/Laporan/Tahun.vue?vue&type=template&id=5bdb8e52&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Admin/Laporan/Tahun.vue?vue&type=template&id=5bdb8e52& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-xl-12" }, [
+        _c("div", { staticClass: "card m-b-30" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "table-responsive" }, [
+              _c(
+                "table",
+                {
+                  staticClass: "table table-hover table-lg",
+                  attrs: { id: "promo-table" }
+                },
+                [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.years, function(year) {
+                      return _c("tr", { key: year.id }, [
+                        _c("td", [_vm._v(_vm._s(year.value))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(year.masuk))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(year.keluar))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            "Rp. " + _vm._s(_vm.formatPrice(year.pendapatan))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            "Rp. " + _vm._s(_vm.formatPrice(year.pengeluaran))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          [
+                            _c(
+                              "router-link",
+                              {
+                                staticClass:
+                                  "btn btn-info btn-sm btn-icon icon-left",
+                                attrs: {
+                                  to: { path: "/laporan/" + year.value }
+                                }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fas fa-search-plus mr-1"
+                                }),
+                                _vm._v(
+                                  "\n                      Detail\n                    "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ])
+                    }),
+                    0
+                  )
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "nav",
+              {
+                staticClass: "float-right",
+                attrs: { "aria-label": "Page navigation example" }
+              },
+              [
+                _c("ul", { staticClass: "pagination" }, [
+                  _c("li", { staticClass: "page-item" }, [
+                    this.current_page !== this.first_page
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "page-link",
+                            attrs: { href: "#" },
+                            on: { click: _vm.prevPage }
+                          },
+                          [_vm._v("Previous")]
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "page-item" }, [
+                    _c(
+                      "button",
+                      { staticClass: "page-link", attrs: { href: "#" } },
+                      [_vm._v(_vm._s(this.current_page))]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "page-item" }, [
+                    this.current_page !== this.last_page
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "page-link",
+                            attrs: { href: "#" },
+                            on: { click: _vm.nextPage }
+                          },
+                          [_vm._v("Next")]
+                        )
+                      : _vm._e()
+                  ])
+                ])
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-sm-12" }, [
+        _c("div", { staticClass: "page-title-box" }, [
+          _c("div", { staticClass: "row align-items-center" }, [
+            _c("div", { staticClass: "col-md-8" }, [
+              _c("h4", { staticClass: "page-title m-0" }, [
+                _vm._v("Laporan Transaksi")
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row mb-3" }, [
+      _c("div", { staticClass: "col-8" }, [
+        _c("h4", { staticClass: "mt-0 header-title" }, [
+          _vm._v("List All Laporan Transaksi")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Tahun")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Transaksi Masuk")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Transaksi Keluar")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Pendapatan")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Pengeluaran")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Aksi")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/Laporan/Tanggal.vue?vue&type=template&id=45c02acf&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Admin/Laporan/Tanggal.vue?vue&type=template&id=45c02acf& ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-xl-12" }, [
+        _c("div", { staticClass: "card m-b-30" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "row mb-3" }, [
+              _c("div", { staticClass: "col-8" }, [
+                _c("h4", { staticClass: "mt-0 header-title" }, [
+                  _vm._v(
+                    "List All Laporan Transaksi (Tahun " +
+                      _vm._s(_vm.tahun) +
+                      ", Bulan " +
+                      _vm._s(_vm.days[0].bulan) +
+                      ")"
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "table-responsive" }, [
+              _c(
+                "table",
+                {
+                  staticClass: "table table-hover table-lg",
+                  attrs: { id: "promo-table" }
+                },
+                [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.days, function(day) {
+                      return _c("tr", { key: day.id }, [
+                        _c("td", [
+                          _vm._v(
+                            _vm._s(day.value) +
+                              " " +
+                              _vm._s(day.bulan) +
+                              " " +
+                              _vm._s(_vm.tahun)
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(day.masuk))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(day.keluar))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            "Rp. " + _vm._s(_vm.formatPrice(day.pendapatan))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            "Rp. " + _vm._s(_vm.formatPrice(day.pengeluaran))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          [
+                            _c(
+                              "router-link",
+                              {
+                                staticClass:
+                                  "btn btn-info btn-sm btn-icon icon-left",
+                                attrs: {
+                                  to: {
+                                    path:
+                                      "/laporan/" +
+                                      _vm.tahun +
+                                      "/" +
+                                      _vm.bulan +
+                                      "/" +
+                                      day.value
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fas fa-search-plus mr-1"
+                                }),
+                                _vm._v(
+                                  "\n                      Detail\n                    "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ])
+                    }),
+                    0
+                  )
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "nav",
+              {
+                staticClass: "float-right",
+                attrs: { "aria-label": "Page navigation example" }
+              },
+              [
+                _c("ul", { staticClass: "pagination" }, [
+                  _c("li", { staticClass: "page-item" }, [
+                    this.current_page !== this.first_page
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "page-link",
+                            attrs: { href: "#" },
+                            on: { click: _vm.prevPage }
+                          },
+                          [_vm._v("Previous")]
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "page-item" }, [
+                    _c(
+                      "button",
+                      { staticClass: "page-link", attrs: { href: "#" } },
+                      [_vm._v(_vm._s(this.current_page))]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "page-item" }, [
+                    this.current_page !== this.last_page
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "page-link",
+                            attrs: { href: "#" },
+                            on: { click: _vm.nextPage }
+                          },
+                          [_vm._v("Next")]
+                        )
+                      : _vm._e()
+                  ])
+                ])
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-sm-12" }, [
+        _c("div", { staticClass: "page-title-box" }, [
+          _c("div", { staticClass: "row align-items-center" }, [
+            _c("div", { staticClass: "col-md-8" }, [
+              _c("h4", { staticClass: "page-title m-0" }, [
+                _vm._v("Laporan Transaksi")
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Tanggal")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Transaksi Masuk")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Transaksi Keluar")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Pendapatan")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Pengeluaran")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Aksi")])
+      ])
     ])
   }
 ]
@@ -66852,6 +68259,27 @@ var render = function() {
                             _c("i", { staticClass: "dripicons-home" }),
                             _vm._v(" "),
                             _c("span", [_vm._v("Pengeluaran")])
+                          ]
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$auth.check("Admin")
+                  ? _c(
+                      "li",
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "waves-effect",
+                            attrs: { to: "/laporan" }
+                          },
+                          [
+                            _c("i", { staticClass: "dripicons-home" }),
+                            _vm._v(" "),
+                            _c("span", [_vm._v("Laporan Transaksi")])
                           ]
                         )
                       ],
@@ -82029,9 +83457,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_Admin_Member_Index_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./pages/Admin/Member/Index.vue */ "./resources/js/pages/Admin/Member/Index.vue");
 /* harmony import */ var _pages_Admin_Promo_Index_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./pages/Admin/Promo/Index.vue */ "./resources/js/pages/Admin/Promo/Index.vue");
 /* harmony import */ var _pages_Admin_Pengeluaran_Index_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./pages/Admin/Pengeluaran/Index.vue */ "./resources/js/pages/Admin/Pengeluaran/Index.vue");
-/* harmony import */ var _pages_Admin_Laporan_Kas_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./pages/Admin/Laporan/Kas.vue */ "./resources/js/pages/Admin/Laporan/Kas.vue");
-/* harmony import */ var _pages_Admin_Setting_Index_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./pages/Admin/Setting/Index.vue */ "./resources/js/pages/Admin/Setting/Index.vue");
-/* harmony import */ var _pages_Auth_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./pages/Auth.vue */ "./resources/js/pages/Auth.vue");
+/* harmony import */ var _pages_Admin_Laporan_Tahun_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./pages/Admin/Laporan/Tahun.vue */ "./resources/js/pages/Admin/Laporan/Tahun.vue");
+/* harmony import */ var _pages_Admin_Laporan_Bulan_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./pages/Admin/Laporan/Bulan.vue */ "./resources/js/pages/Admin/Laporan/Bulan.vue");
+/* harmony import */ var _pages_Admin_Laporan_Tanggal_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./pages/Admin/Laporan/Tanggal.vue */ "./resources/js/pages/Admin/Laporan/Tanggal.vue");
+/* harmony import */ var _pages_Admin_Laporan_Detail_vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./pages/Admin/Laporan/Detail.vue */ "./resources/js/pages/Admin/Laporan/Detail.vue");
+/* harmony import */ var _pages_Admin_Laporan_Kas_vue__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./pages/Admin/Laporan/Kas.vue */ "./resources/js/pages/Admin/Laporan/Kas.vue");
+/* harmony import */ var _pages_Admin_Setting_Index_vue__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./pages/Admin/Setting/Index.vue */ "./resources/js/pages/Admin/Setting/Index.vue");
+/* harmony import */ var _pages_Auth_vue__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./pages/Auth.vue */ "./resources/js/pages/Auth.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -82050,6 +83482,10 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
  */
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+
+
+
+
 
 
 
@@ -82138,20 +83574,44 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
       auth: true
     }
   }, {
+    path: "/laporan",
+    component: _pages_Admin_Laporan_Tahun_vue__WEBPACK_IMPORTED_MODULE_15__["default"],
+    meta: {
+      auth: true
+    }
+  }, {
+    path: "/laporan/:tahun",
+    component: _pages_Admin_Laporan_Bulan_vue__WEBPACK_IMPORTED_MODULE_16__["default"],
+    meta: {
+      auth: true
+    }
+  }, {
+    path: "/laporan/:tahun/:bulan",
+    component: _pages_Admin_Laporan_Tanggal_vue__WEBPACK_IMPORTED_MODULE_17__["default"],
+    meta: {
+      auth: true
+    }
+  }, {
+    path: "/laporan/:tahun/:bulan/:tanggal",
+    component: _pages_Admin_Laporan_Detail_vue__WEBPACK_IMPORTED_MODULE_18__["default"],
+    meta: {
+      auth: true
+    }
+  }, {
     path: "/kas",
-    component: _pages_Admin_Laporan_Kas_vue__WEBPACK_IMPORTED_MODULE_15__["default"],
+    component: _pages_Admin_Laporan_Kas_vue__WEBPACK_IMPORTED_MODULE_19__["default"],
     meta: {
       auth: true
     }
   }, {
     path: "/setting",
-    component: _pages_Admin_Setting_Index_vue__WEBPACK_IMPORTED_MODULE_16__["default"],
+    component: _pages_Admin_Setting_Index_vue__WEBPACK_IMPORTED_MODULE_20__["default"],
     meta: {
       auth: true
     }
   }, {
     path: "/login",
-    component: _pages_Auth_vue__WEBPACK_IMPORTED_MODULE_17__["default"],
+    component: _pages_Auth_vue__WEBPACK_IMPORTED_MODULE_21__["default"],
     meta: {
       auth: false,
       pageType: "auth"
@@ -82573,6 +84033,144 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/pages/Admin/Laporan/Bulan.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/pages/Admin/Laporan/Bulan.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Bulan_vue_vue_type_template_id_3451ecc9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Bulan.vue?vue&type=template&id=3451ecc9& */ "./resources/js/pages/Admin/Laporan/Bulan.vue?vue&type=template&id=3451ecc9&");
+/* harmony import */ var _Bulan_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Bulan.vue?vue&type=script&lang=js& */ "./resources/js/pages/Admin/Laporan/Bulan.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Bulan_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Bulan_vue_vue_type_template_id_3451ecc9___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Bulan_vue_vue_type_template_id_3451ecc9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/Admin/Laporan/Bulan.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/pages/Admin/Laporan/Bulan.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/pages/Admin/Laporan/Bulan.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Bulan_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Bulan.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/Laporan/Bulan.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Bulan_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/pages/Admin/Laporan/Bulan.vue?vue&type=template&id=3451ecc9&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/pages/Admin/Laporan/Bulan.vue?vue&type=template&id=3451ecc9& ***!
+  \***********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Bulan_vue_vue_type_template_id_3451ecc9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Bulan.vue?vue&type=template&id=3451ecc9& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/Laporan/Bulan.vue?vue&type=template&id=3451ecc9&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Bulan_vue_vue_type_template_id_3451ecc9___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Bulan_vue_vue_type_template_id_3451ecc9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/Admin/Laporan/Detail.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/pages/Admin/Laporan/Detail.vue ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Detail_vue_vue_type_template_id_3401c6fe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Detail.vue?vue&type=template&id=3401c6fe& */ "./resources/js/pages/Admin/Laporan/Detail.vue?vue&type=template&id=3401c6fe&");
+/* harmony import */ var _Detail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Detail.vue?vue&type=script&lang=js& */ "./resources/js/pages/Admin/Laporan/Detail.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Detail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Detail_vue_vue_type_template_id_3401c6fe___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Detail_vue_vue_type_template_id_3401c6fe___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/Admin/Laporan/Detail.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/pages/Admin/Laporan/Detail.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/pages/Admin/Laporan/Detail.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Detail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Detail.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/Laporan/Detail.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Detail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/pages/Admin/Laporan/Detail.vue?vue&type=template&id=3401c6fe&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/pages/Admin/Laporan/Detail.vue?vue&type=template&id=3401c6fe& ***!
+  \************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Detail_vue_vue_type_template_id_3401c6fe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Detail.vue?vue&type=template&id=3401c6fe& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/Laporan/Detail.vue?vue&type=template&id=3401c6fe&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Detail_vue_vue_type_template_id_3401c6fe___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Detail_vue_vue_type_template_id_3401c6fe___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/pages/Admin/Laporan/Kas.vue":
 /*!**************************************************!*\
   !*** ./resources/js/pages/Admin/Laporan/Kas.vue ***!
@@ -82655,6 +84253,144 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Kas_vue_vue_type_template_id_73b8dd80___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Kas_vue_vue_type_template_id_73b8dd80___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/Admin/Laporan/Tahun.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/pages/Admin/Laporan/Tahun.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Tahun_vue_vue_type_template_id_5bdb8e52___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Tahun.vue?vue&type=template&id=5bdb8e52& */ "./resources/js/pages/Admin/Laporan/Tahun.vue?vue&type=template&id=5bdb8e52&");
+/* harmony import */ var _Tahun_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Tahun.vue?vue&type=script&lang=js& */ "./resources/js/pages/Admin/Laporan/Tahun.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Tahun_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Tahun_vue_vue_type_template_id_5bdb8e52___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Tahun_vue_vue_type_template_id_5bdb8e52___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/Admin/Laporan/Tahun.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/pages/Admin/Laporan/Tahun.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/pages/Admin/Laporan/Tahun.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Tahun_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Tahun.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/Laporan/Tahun.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Tahun_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/pages/Admin/Laporan/Tahun.vue?vue&type=template&id=5bdb8e52&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/pages/Admin/Laporan/Tahun.vue?vue&type=template&id=5bdb8e52& ***!
+  \***********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Tahun_vue_vue_type_template_id_5bdb8e52___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Tahun.vue?vue&type=template&id=5bdb8e52& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/Laporan/Tahun.vue?vue&type=template&id=5bdb8e52&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Tahun_vue_vue_type_template_id_5bdb8e52___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Tahun_vue_vue_type_template_id_5bdb8e52___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/Admin/Laporan/Tanggal.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/pages/Admin/Laporan/Tanggal.vue ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Tanggal_vue_vue_type_template_id_45c02acf___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Tanggal.vue?vue&type=template&id=45c02acf& */ "./resources/js/pages/Admin/Laporan/Tanggal.vue?vue&type=template&id=45c02acf&");
+/* harmony import */ var _Tanggal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Tanggal.vue?vue&type=script&lang=js& */ "./resources/js/pages/Admin/Laporan/Tanggal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Tanggal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Tanggal_vue_vue_type_template_id_45c02acf___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Tanggal_vue_vue_type_template_id_45c02acf___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/Admin/Laporan/Tanggal.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/pages/Admin/Laporan/Tanggal.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/pages/Admin/Laporan/Tanggal.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Tanggal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Tanggal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/Laporan/Tanggal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Tanggal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/pages/Admin/Laporan/Tanggal.vue?vue&type=template&id=45c02acf&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/pages/Admin/Laporan/Tanggal.vue?vue&type=template&id=45c02acf& ***!
+  \*************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Tanggal_vue_vue_type_template_id_45c02acf___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Tanggal.vue?vue&type=template&id=45c02acf& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Admin/Laporan/Tanggal.vue?vue&type=template&id=45c02acf&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Tanggal_vue_vue_type_template_id_45c02acf___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Tanggal_vue_vue_type_template_id_45c02acf___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

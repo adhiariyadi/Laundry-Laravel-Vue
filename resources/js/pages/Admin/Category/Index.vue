@@ -290,11 +290,11 @@ export default {
     };
   },
   methods: {
-    displayData(page = 1, search = "") {
+    displayData(page, search) {
       this.$http({
         url: "/api/v1/category",
         method: "GET",
-        params: { search: this.search, page: this.page },
+        params: { search: search, page: page },
       }).then((result) => {
         this.categories = result.data.data;
         this.last_page = result.data.meta.last_page;
@@ -395,7 +395,7 @@ export default {
     nextPage() {
       let nextPage = this.current_page + 1;
       window.history.replaceState(null, null, "?page=" + nextPage);
-      this.displayData(this.current_page + 1, this.search);
+      this.displayData(thinextPage, this.search);
     },
     prevPage() {
       let prevPage = this.current_page - 1;

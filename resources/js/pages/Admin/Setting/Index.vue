@@ -184,20 +184,6 @@ export default {
           }
         });
     },
-    nextPage() {
-      let nextPage = this.current_page + 1;
-      window.history.replaceState(null, null, "?page=" + nextPage);
-      this.displayData(this.current_page + 1, this.search);
-    },
-    prevPage() {
-      let prevPage = this.current_page - 1;
-      window.history.replaceState(null, null, "?page=" + prevPage);
-      this.displayData(prevPage, this.search);
-    },
-    searchData() {
-      this.displayData(1, this.search);
-      window.history.replaceState(null, null, "?page=1");
-    },
   },
 };
 </script>
