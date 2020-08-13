@@ -6,3 +6,11 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.bullet {
+    display: inline;
+    margin: 0 4px;
+    &:after {
+        content: "\2022";
+    }
+}

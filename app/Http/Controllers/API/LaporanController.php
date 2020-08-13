@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Kas;
+use App\Models\Member;
+use App\Models\Antrian;
 use App\Models\Setting;
+use App\Models\Pembayaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Resources\KasResource;
@@ -12,6 +15,37 @@ use App\Http\Resources\LaporanResource;
 
 class LaporanController extends Controller
 {
+    public function index()
+    {
+        $data['cucian'] = Antrian::with(['cucian'])->where('status', 'cuci')->count();
+        $data['pelanggan'] = Member::count();
+        $data['harian'] = Pembayaran::whereYear('created_at', date('Y'))
+            ->whereMonth('created_at', date('m'))
+            ->whereDay('created_at', date('d'))
+            ->get()
+            ->sum('total');
+        $data['bulanan'] = Pembayaran::whereYear('created_at', date('Y'))
+            ->whereMonth('created_at', date('m'))
+            ->get()
+            ->sum('total');
+        for ($i = 0; $i < 7; $i++) {
+            $data['mingguan'][$i] = array(
+                'tanggal' => date('Y-m-d', strtotime("-$i day", strtotime(date("Y-m-d")))),
+                'transaksi' => Pembayaran::whereYear('created_at', date('Y'))
+                    ->whereMonth('created_at', date('m'))
+                    ->whereDay('created_at', date('d') - $i)
+                    ->count(),
+                'nominal' => Pembayaran::whereYear('created_at', date('Y'))
+                    ->whereMonth('created_at', date('m'))
+                    ->whereDay('created_at', date('d') - $i)
+                    ->get()
+                    ->sum('total')
+            );
+        }
+        $data['member'] = Member::with(['level', 'antrian'])->orderBy('point')->limit(5)->get();
+        return new LaporanResource($data);
+    }
+
     public function kas()
     {
         return new KasResource(['kas' => Kas::orderBy('id', 'desc')->get(), 'saldo' => Setting::where('name', 'saldo')->first()]);

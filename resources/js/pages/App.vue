@@ -26,67 +26,67 @@
             </li>
             <li v-if="$auth.check('Admin')">
               <router-link to="/antrian" class="waves-effect">
-                <i class="dripicons-home"></i>
+                <i class="dripicons-clipboard"></i>
                 <span>Antrian</span>
               </router-link>
             </li>
             <li v-if="$auth.check('Admin')">
               <router-link to="/room" class="waves-effect">
-                <i class="dripicons-home"></i>
+                <i class="dripicons-store"></i>
                 <span>Laundry Room</span>
               </router-link>
             </li>
             <li v-if="$auth.check('Admin')">
               <router-link to="/transaksi/riwayat" class="waves-effect">
-                <i class="dripicons-shopping-bag"></i>
+                <i class="dripicons-article"></i>
                 <span>Riwayat Transaksi</span>
               </router-link>
             </li>
             <li v-if="$auth.check('Admin')">
               <router-link to="/transaksi" class="waves-effect">
-                <i class="dripicons-shopping-bag"></i>
+                <i class="dripicons-article"></i>
                 <span>Semua Transaksi</span>
               </router-link>
             </li>
             <li v-if="$auth.check('Admin')">
               <router-link to="/category" class="waves-effect">
-                <i class="dripicons-home"></i>
+                <i class="dripicons-archive"></i>
                 <span>Category</span>
               </router-link>
             </li>
             <li v-if="$auth.check('Admin')">
               <router-link to="/member" class="waves-effect">
-                <i class="dripicons-home"></i>
+                <i class="dripicons-user"></i>
                 <span>Member</span>
               </router-link>
             </li>
             <li v-if="$auth.check('Admin')">
               <router-link to="/promo" class="waves-effect">
-                <i class="dripicons-home"></i>
+                <i class="dripicons-tags"></i>
                 <span>Promo</span>
               </router-link>
             </li>
             <li v-if="$auth.check('Admin')">
               <router-link to="/pengeluaran" class="waves-effect">
-                <i class="dripicons-home"></i>
+                <i class="dripicons-cart"></i>
                 <span>Pengeluaran</span>
               </router-link>
             </li>
             <li v-if="$auth.check('Admin')">
               <router-link to="/laporan" class="waves-effect">
-                <i class="dripicons-home"></i>
+                <i class="dripicons-to-do"></i>
                 <span>Laporan Transaksi</span>
               </router-link>
             </li>
             <li v-if="$auth.check('Admin')">
               <router-link to="/kas" class="waves-effect">
-                <i class="dripicons-home"></i>
+                <i class="dripicons-to-do"></i>
                 <span>Laporan Kas</span>
               </router-link>
             </li>
             <li v-if="$auth.check('Admin')">
               <router-link to="/setting" class="waves-effect">
-                <i class="dripicons-home"></i>
+                <i class="dripicons-gear"></i>
                 <span>Setting</span>
               </router-link>
             </li>
@@ -116,7 +116,7 @@
       <!-- content -->
       <footer class="footer" v-if="$route.meta.pageType != 'auth'">
         Copyright &copy; 2020
-        <i class="mdi mdi-heart text-danger"></i> Design By
+        <div class="bullet"></div>Design By
         <a href="https://github.com/adhiariyadi/">Adhi Ariyadi</a>
       </footer>
     </div>

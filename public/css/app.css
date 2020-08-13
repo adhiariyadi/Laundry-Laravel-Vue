@@ -10644,3 +10644,12 @@ a.text-dark:focus {
   }
 }
 
+.bullet {
+  display: inline;
+  margin: 0 4px;
+}
+
+.bullet:after {
+  content: "\2022";
+}
+

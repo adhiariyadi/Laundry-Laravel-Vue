@@ -50,12 +50,7 @@ Vue.component("auth-page", require("./pages/Auth.vue").default);
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
 moment.locale("id");
-let numberFormat = function(value) {
-    let val = (value / 1).toFixed(0).replace(".", ",");
-    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-};
 Vue.prototype.moment = moment;
-Vue.prototype.numberFormat = numberFormat;
 
 const router = new VueRouter({
     mode: "history",

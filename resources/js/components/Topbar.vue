@@ -24,9 +24,11 @@
               <i class="mdi mdi-chevron-down"></i>
             </span>
           </a>
-          <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown">
-            <a class="dropdown-item" href="#" @click.prevent="logout()">
-              <i class="dripicons-exit text-muted"></i> Logout
+          <div
+            class="dropdown-menu dropdown-menu-right shadow dropdown-menu-animated profile-dropdown"
+          >
+            <a class="dropdown-item text-danger" href="#" @click.prevent="logout()">
+              <i class="dripicons-exit"></i> Logout
             </a>
           </div>
         </li>

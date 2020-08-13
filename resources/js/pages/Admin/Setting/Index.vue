@@ -140,7 +140,7 @@ export default {
     };
   },
   methods: {
-    displayData(id) {
+    displayData() {
       axios.get(`/api/v1/setting`).then((result) => {
         this.settings = result.data.data;
       });
