@@ -85,7 +85,6 @@ class LaporanController extends Controller
             ->paginate(10);
         foreach ($kas as $val) {
             $data[] = array(
-                'id' => $val->id,
                 'bulan' => date('F', strtotime($val->created_at)),
                 'waktu' => date('Y-m-d H:i:s', strtotime($val->created_at)),
                 'invoice' => $val->invoice,

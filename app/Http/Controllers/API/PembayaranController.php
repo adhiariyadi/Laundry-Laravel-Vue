@@ -9,6 +9,8 @@ use App\Models\Pembayaran;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\TransaksiResource;
+use App\Models\Setting;
 
 class PembayaranController extends Controller
 {
@@ -17,9 +19,13 @@ class PembayaranController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->user === "Admin") {
+            return new TransaksiResource(Antrian::with(['member', 'room', 'bayar'])->orderBy('id', 'desc')->paginate(10));
+        } else {
+            return new TransaksiResource(Antrian::with(['member', 'room', 'bayar'])->orderBy('id', 'desc')->where('operator', Auth::user()->id)->paginate(10));
+        }
     }
 
     /**
@@ -90,7 +96,16 @@ class PembayaranController extends Controller
      */
     public function show($id)
     {
-        //
+        $newId = Pembayaran::where('invoice', $id)->first()->antrian_id;
+        $data['antrian'] = Antrian::with(['member', 'room', 'cucian.category', 'bayar'])->find($newId);
+        $data['setting']['name'] = Setting::where('name', 'name')->first()->value;
+        $data['setting']['alamat'] = Setting::where('name', 'alamat')->first()->value;
+        $data['setting']['kelurahan'] = Setting::where('name', 'kelurahan')->first()->value;
+        $data['setting']['kecamatan'] = Setting::where('name', 'kecamatan')->first()->value;
+        $data['setting']['kabupaten'] = Setting::where('name', 'kabupaten')->first()->value;
+        $data['setting']['provinsi'] = Setting::where('name', 'provinsi')->first()->value;
+        $data['setting']['kode_pos'] = Setting::where('name', 'kode_pos')->first()->value;
+        return new TransaksiResource($data);
     }
 
     /**

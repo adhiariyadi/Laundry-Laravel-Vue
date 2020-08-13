@@ -46,7 +46,7 @@
                     <td>Rp. {{ formatPrice(detail.nominal) }}</td>
                     <td>
                       <router-link
-                        :to="{path: `/transaksi/${detail.id}`}"
+                        :to="{path: `/transaksi/${detail.invoice}`}"
                         class="btn btn-info btn-sm btn-icon icon-left"
                       >
                         <i class="fas fa-search-plus mr-1"></i>

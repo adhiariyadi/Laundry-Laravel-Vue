@@ -18,7 +18,12 @@
       <div class="sidebar-inner slimscrollleft">
         <div id="sidebar-menu">
           <ul>
-            <li class="menu-title" v-if="$auth.check('Admin')">Operator</li>
+            <li v-if="$auth.check('Admin')">
+              <router-link to="/" class="waves-effect">
+                <i class="dripicons-home"></i>
+                <span>Dashboard</span>
+              </router-link>
+            </li>
             <li v-if="$auth.check('Admin')">
               <router-link to="/antrian" class="waves-effect">
                 <i class="dripicons-home"></i>
@@ -31,11 +36,16 @@
                 <span>Laundry Room</span>
               </router-link>
             </li>
-            <li class="menu-title" v-if="$auth.check('Admin')">Admin</li>
             <li v-if="$auth.check('Admin')">
-              <router-link to="/" class="waves-effect">
-                <i class="dripicons-home"></i>
-                <span>Dashboard</span>
+              <router-link to="/transaksi/riwayat" class="waves-effect">
+                <i class="dripicons-shopping-bag"></i>
+                <span>Riwayat Transaksi</span>
+              </router-link>
+            </li>
+            <li v-if="$auth.check('Admin')">
+              <router-link to="/transaksi" class="waves-effect">
+                <i class="dripicons-shopping-bag"></i>
+                <span>Semua Transaksi</span>
               </router-link>
             </li>
             <li v-if="$auth.check('Admin')">

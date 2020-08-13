@@ -25,6 +25,11 @@ class Antrian extends Model
         return $this->hasMany('App\Models\Cucian');
     }
 
+    public function bayar()
+    {
+        return $this->hasOne('App\Models\Pembayaran');
+    }
+
     public function operator()
     {
         return $this->belongsTo('App\User', 'operator');

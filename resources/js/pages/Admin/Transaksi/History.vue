@@ -5,7 +5,7 @@
         <div class="page-title-box">
           <div class="row align-items-center">
             <div class="col-md-8">
-              <h4 class="page-title m-0">Laporan Transaksi</h4>
+              <h4 class="page-title m-0">Data Transaksi</h4>
             </div>
             <!-- end col -->
           </div>
@@ -22,37 +22,29 @@
           <div class="card-body">
             <div class="row mb-3">
               <div class="col-8">
-                <h4 class="mt-0 header-title">List All Laporan Transaksi (Tahun {{ tahun }})</h4>
+                <h4 class="mt-0 header-title">List All Data Transaksi</h4>
               </div>
             </div>
             <div class="table-responsive">
               <table class="table table-hover table-lg" id="promo-table">
                 <thead>
                   <tr>
-                    <th>Bulan</th>
-                    <th>Transaksi Masuk</th>
-                    <th>Transaksi Keluar</th>
-                    <th>Pendapatan</th>
-                    <th>Pengeluaran</th>
+                    <th>Invoice</th>
+                    <th>Nama Pelanggan</th>
+                    <th>Waktu</th>
+                    <th>Total Harga</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="month in months" v-bind:key="month.id">
-                    <td>{{ month.value }} {{ tahun }}</td>
-                    <td>{{ month.masuk }}</td>
-                    <td>{{ month.keluar }}</td>
-                    <td>
-                      Rp.
-                      {{ formatPrice(month.pendapatan) }}
-                    </td>
-                    <td>
-                      Rp.
-                      {{ formatPrice(month.pengeluaran) }}
-                    </td>
+                  <tr v-for="data in transaksi" v-bind:key="data.id">
+                    <td>{{ data.bayar.invoice }}</td>
+                    <td>{{ data.member.name }}</td>
+                    <td>{{ data.bayar.created_at }}</td>
+                    <td>Rp. {{ formatPrice(data.room.total) }}</td>
                     <td>
                       <router-link
-                        :to="{path: `/laporan/${tahun}/${month.key}`}"
+                        :to="{path: `/transaksi/${data.bayar.invoice}`}"
                         class="btn btn-info btn-sm btn-icon icon-left"
                       >
                         <i class="fas fa-search-plus mr-1"></i>
@@ -99,12 +91,13 @@
 export default {
   mounted() {
     this.tahun = this.$route.params.tahun;
+    this.bulan = this.$route.params.bulan;
+    this.tanggal = this.$route.params.tanggal;
     this.displayData(this.page);
   },
   data() {
     return {
-      tahun: "",
-      months: [],
+      transaksi: [],
       first_page: 1,
       page: 1,
       last_page: null,
@@ -116,11 +109,14 @@ export default {
   methods: {
     displayData(page) {
       this.$http({
-        url: "/api/v1/bulan",
+        url: "/api/v1/pembayaran",
         method: "GET",
-        params: { page: page, tahun: this.tahun },
+        params: {
+          page: page,
+          user: "User",
+        },
       }).then((result) => {
-        this.months = result.data.data;
+        this.transaksi = result.data.data;
         this.last_page = result.data.meta.last_page;
         this.current_page = result.data.meta.current_page;
         this.next_page_url = result.data.links.next;

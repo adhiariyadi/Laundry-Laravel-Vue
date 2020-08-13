@@ -15,6 +15,11 @@ class Pembayaran extends Model
         return $this->belongsTo('App\Models\Antrian', 'antrian_id');
     }
 
+    public function kas()
+    {
+        return $this->hasOne('App\Models\Kas', 'invoice', 'invoice');
+    }
+
     public function operator()
     {
         return $this->belongsTo('App\User', 'operator');
