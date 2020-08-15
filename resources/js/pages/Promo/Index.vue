@@ -192,7 +192,6 @@ export default {
       addLoading: false,
       first_page: 1,
       page: 1,
-      search: "",
       last_page: null,
       current_page: this.$route.query.page || 1,
       next_page_url: "",

@@ -98,9 +98,7 @@ export default {
           alertify.success("Success Login!");
           app.button_loading = true;
           setTimeout(() => {
-            const redirectTo =
-              this.$auth.user().level === "Admin" ? "/" : "/transaksi";
-            this.$router.push(redirectTo);
+            this.$router.push("/");
           }, 1000);
         },
         error: function () {

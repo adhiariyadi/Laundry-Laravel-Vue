@@ -123,7 +123,7 @@
               <li class="media" v-for="data in data.member" v-bind:key="data.id">
                 <img
                   width="50"
-                  src="http://localhost/Nadha-Laundry/ladun/dasbor/img/avatar-1.png"
+                  src="images/users/avatar-1.png"
                   alt="avatar"
                   class="mr-3 rounded-circle"
                 />

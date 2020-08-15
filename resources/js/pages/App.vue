@@ -18,34 +18,22 @@
       <div class="sidebar-inner slimscrollleft">
         <div id="sidebar-menu">
           <ul>
-            <li v-if="$auth.check('Admin')">
+            <li v-if="$auth.check(['Admin', 'Operator'])">
               <router-link to="/" class="waves-effect">
                 <i class="dripicons-home"></i>
                 <span>Dashboard</span>
               </router-link>
             </li>
-            <li v-if="$auth.check('Admin')">
+            <li v-if="$auth.check(['Admin', 'Operator'])">
               <router-link to="/antrian" class="waves-effect">
                 <i class="dripicons-clipboard"></i>
                 <span>Antrian</span>
               </router-link>
             </li>
-            <li v-if="$auth.check('Admin')">
+            <li v-if="$auth.check(['Admin', 'Operator'])">
               <router-link to="/room" class="waves-effect">
                 <i class="dripicons-store"></i>
                 <span>Laundry Room</span>
-              </router-link>
-            </li>
-            <li v-if="$auth.check('Admin')">
-              <router-link to="/transaksi/riwayat" class="waves-effect">
-                <i class="dripicons-article"></i>
-                <span>Riwayat Transaksi</span>
-              </router-link>
-            </li>
-            <li v-if="$auth.check('Admin')">
-              <router-link to="/transaksi" class="waves-effect">
-                <i class="dripicons-article"></i>
-                <span>Semua Transaksi</span>
               </router-link>
             </li>
             <li v-if="$auth.check('Admin')">
@@ -64,6 +52,24 @@
               <router-link to="/promo" class="waves-effect">
                 <i class="dripicons-tags"></i>
                 <span>Promo</span>
+              </router-link>
+            </li>
+            <li v-if="$auth.check('Admin')">
+              <router-link to="/user" class="waves-effect">
+                <i class="dripicons-user"></i>
+                <span>User</span>
+              </router-link>
+            </li>
+            <li v-if="$auth.check(['Admin', 'Operator'])">
+              <router-link to="/transaksi/riwayat" class="waves-effect">
+                <i class="dripicons-article"></i>
+                <span>Riwayat Transaksi</span>
+              </router-link>
+            </li>
+            <li v-if="$auth.check('Admin')">
+              <router-link to="/transaksi" class="waves-effect">
+                <i class="dripicons-article"></i>
+                <span>Semua Transaksi</span>
               </router-link>
             </li>
             <li v-if="$auth.check('Admin')">
